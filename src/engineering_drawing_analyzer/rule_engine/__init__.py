@@ -11,6 +11,11 @@ from .dimension_completeness import (
     OverDimensionRule,
     AngularDimensionRule,
 )
+from .geometric_constraints import (
+    DatumReferenceFrameRule,
+    FeatureOrientationRule,
+    GDTDatumReferenceRule,
+)
 
 __all__ = [
     "RuleEngine",
@@ -19,4 +24,7 @@ __all__ = [
     "PositionDimensionRule",
     "OverDimensionRule",
     "AngularDimensionRule",
+    "DatumReferenceFrameRule",
+    "FeatureOrientationRule",
+    "GDTDatumReferenceRule",
 ]

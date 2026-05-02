@@ -140,7 +140,7 @@ The implementation follows the pipeline order: data models → ingestion → par
     - Place in `tests/unit/test_rule_dimension_completeness.py`
     - _Requirements: 2.1–2.8_
 
-- [ ] 11. Implement `geometric_constraints` rule module
+- [x] 11. Implement `geometric_constraints` rule module
   - Implement rules in `src/engineering_drawing_analyzer/rule_engine/geometric_constraints.py`:
     - `DatumReferenceFrameRule`: verify a valid `Datum_Reference_Frame` exists; missing → `CRITICAL`; missing secondary/tertiary datum → `WARNING`
     - `FeatureOrientationRule`: every `Feature`'s orientation must be fully constrained relative to DRF or another constrained feature; unconstrained DOF → `CRITICAL`
