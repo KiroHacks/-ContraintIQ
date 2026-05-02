@@ -153,7 +153,7 @@ The implementation follows the pipeline order: data models → ingestion → par
     - Place in `tests/unit/test_rule_geometric_constraints.py`
     - _Requirements: 3.1–3.7_
 
-- [ ] 12. Implement `tolerance_verification` rule module
+- [x] 12. Implement `tolerance_verification` rule module
   - Implement rules in `src/engineering_drawing_analyzer/rule_engine/tolerance_verification.py`:
     - `DimensionToleranceRule`: every `Dimension` must have a `Tolerance` or the model must have `general_tolerance`; missing → `CRITICAL`
     - `FCFCompletenessRule`: `FeatureControlFrame` must have a valid `tolerance_value` and required datum references per ASME Y14.5; missing → `CRITICAL`

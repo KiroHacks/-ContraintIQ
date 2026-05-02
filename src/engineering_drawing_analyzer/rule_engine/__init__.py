@@ -16,6 +16,11 @@ from .geometric_constraints import (
     FeatureOrientationRule,
     GDTDatumReferenceRule,
 )
+from .tolerance_verification import (
+    DimensionToleranceRule,
+    FCFCompletenessRule,
+    ToleranceStackUpRule,
+)
 
 __all__ = [
     "RuleEngine",
@@ -27,4 +32,7 @@ __all__ = [
     "DatumReferenceFrameRule",
     "FeatureOrientationRule",
     "GDTDatumReferenceRule",
+    "DimensionToleranceRule",
+    "FCFCompletenessRule",
+    "ToleranceStackUpRule",
 ]
