@@ -303,7 +303,7 @@ class DXFParser:
     def _load_document(self, data: bytes, source_path: str) -> EzdxfDrawing:
         """Load the DXF document, attempting recovery on failure."""
         try:
-            doc, _ = ezdxf.recover.readbytes(data)
+            doc, _ = ezdxf.recover.read(io.BytesIO(data))
             return doc
         except ezdxf.DXFStructureError as exc:
             raise ParseError(

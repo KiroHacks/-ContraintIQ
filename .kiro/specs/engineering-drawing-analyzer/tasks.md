@@ -78,7 +78,7 @@ The implementation follows the pipeline order: data models → ingestion → par
     - Place in `tests/unit/test_dwg_parser.py`
     - _Requirements: 1.2, 1.3_
 
-- [ ] 7. Implement the PDF Parser
+- [x] 7. Implement the PDF Parser
   - Implement `PDFParser.parse()` in `src/engineering_drawing_analyzer/parsers/pdf_parser.py` using `PyMuPDF`
   - Extract vector paths (lines, arcs, curves) from each page using `page.get_drawings()`
   - Extract text annotations using `page.get_text("dict")` to recover dimension text, GD&T symbols, and title block fields

@@ -33,5 +33,6 @@ class DrawingParser(Protocol):
 
 from .dxf_parser import DXFParser  # noqa: E402 — import after Protocol definition
 from .dwg_parser import DWGParser  # noqa: E402
+from .pdf_parser import PDFParser  # noqa: E402
 
-__all__ = ["DrawingParser", "DXFParser", "DWGParser"]
+__all__ = ["DrawingParser", "DXFParser", "DWGParser", "PDFParser"]

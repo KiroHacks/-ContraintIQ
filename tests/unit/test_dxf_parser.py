@@ -46,9 +46,10 @@ def _make_dxf_bytes(**kwargs) -> bytes:
     builder = kwargs.get("builder")
     if builder is not None:
         builder(doc, msp)
-    stream = io.BytesIO()
+    # ezdxf.write() requires a text stream; encode to bytes afterwards
+    stream = io.StringIO()
     doc.write(stream)
-    return stream.getvalue()
+    return stream.getvalue().encode("utf-8")
 
 
 # ---------------------------------------------------------------------------
