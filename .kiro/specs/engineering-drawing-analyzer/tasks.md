@@ -92,7 +92,7 @@ The implementation follows the pipeline order: data models → ingestion → par
     - Place in `tests/unit/test_pdf_parser.py`
     - _Requirements: 1.2, 1.3_
 
-- [ ] 8. Checkpoint — Ensure all parser and ingestion tests pass
+- [x] 8. Checkpoint — Ensure all parser and ingestion tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 9. Implement the Symbol Detector (DPSS)
