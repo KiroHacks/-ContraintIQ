@@ -3,6 +3,7 @@
 from .ingestion import IngestionService
 from .serializer import GeometricModelSerializer, models_equivalent
 from .parsers import DrawingParser, DXFParser
+from .symbol_detector import DetectedSymbol, SymbolDetector
 from .models import (
     Severity,
     DrawingFormat,
@@ -52,4 +53,6 @@ __all__ = [
     "IngestionService",
     "DrawingParser",
     "DXFParser",
+    "DetectedSymbol",
+    "SymbolDetector",
 ]

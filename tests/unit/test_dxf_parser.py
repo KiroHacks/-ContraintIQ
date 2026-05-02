@@ -46,9 +46,10 @@ def _make_dxf_bytes(**kwargs) -> bytes:
     builder = kwargs.get("builder")
     if builder is not None:
         builder(doc, msp)
-    stream = io.BytesIO()
+    # ezdxf.write() requires a text stream; encode to bytes afterwards
+    stream = io.StringIO()
     doc.write(stream)
-    return stream.getvalue()
+    return stream.getvalue().encode("utf-8")
 
 
 # ---------------------------------------------------------------------------
@@ -250,9 +251,10 @@ class TestToleranceExtraction:
         def builder(doc, msp):
             # Add a TOLERANCE entity with a position FCF string
             # {GDT;10} = position symbol, 0.1 = tolerance value, A = datum
-            msp.add_tolerance(
-                "{GDT;10}|0.1|A",
-                insert=(5, 5),
+            # ezdxf uses new_entity() for TOLERANCE; attribute is 'content' not 'string'
+            msp.new_entity(
+                "TOLERANCE",
+                dxfattribs={"content": "{GDT;10}|0.1|A", "insert": (5, 5)},
             )
 
         data = _make_dxf_bytes(builder=builder)
@@ -263,8 +265,8 @@ class TestToleranceExtraction:
     def test_tolerance_fcf_has_unique_id(self) -> None:
         """Each FeatureControlFrame should have a unique ID."""
         def builder(doc, msp):
-            msp.add_tolerance("{GDT;10}|0.1|A", insert=(5, 5))
-            msp.add_tolerance("{GDT;8}|0.05|B", insert=(10, 5))
+            msp.new_entity("TOLERANCE", dxfattribs={"content": "{GDT;10}|0.1|A", "insert": (5, 5)})
+            msp.new_entity("TOLERANCE", dxfattribs={"content": "{GDT;8}|0.05|B", "insert": (10, 5)})
 
         data = _make_dxf_bytes(builder=builder)
         parser = DXFParser()
@@ -276,7 +278,7 @@ class TestToleranceExtraction:
         """The GD&T symbol should be extracted from the tolerance string."""
         def builder(doc, msp):
             # {GDT;10} = position (⊕)
-            msp.add_tolerance("{GDT;10}|0.1|A", insert=(5, 5))
+            msp.new_entity("TOLERANCE", dxfattribs={"content": "{GDT;10}|0.1|A", "insert": (5, 5)})
 
         data = _make_dxf_bytes(builder=builder)
         parser = DXFParser()
@@ -288,7 +290,7 @@ class TestToleranceExtraction:
     def test_tolerance_fcf_datum_references_extracted(self) -> None:
         """Datum references should be extracted from the tolerance string."""
         def builder(doc, msp):
-            msp.add_tolerance("{GDT;10}|0.1|A|B", insert=(5, 5))
+            msp.new_entity("TOLERANCE", dxfattribs={"content": "{GDT;10}|0.1|A|B", "insert": (5, 5)})
 
         data = _make_dxf_bytes(builder=builder)
         parser = DXFParser()
@@ -301,7 +303,7 @@ class TestToleranceExtraction:
     def test_tolerance_fcf_location_is_set(self) -> None:
         """FeatureControlFrame should have a location reference."""
         def builder(doc, msp):
-            msp.add_tolerance("{GDT;10}|0.1|A", insert=(7.0, 3.0))
+            msp.new_entity("TOLERANCE", dxfattribs={"content": "{GDT;10}|0.1|A", "insert": (7.0, 3.0)})
 
         data = _make_dxf_bytes(builder=builder)
         parser = DXFParser()
@@ -324,12 +326,13 @@ class TestTitleBlockExtraction:
         """An INSERT referencing a block named 'TITLE*' should produce a TitleBlock."""
         def builder(doc, msp):
             # Create a block named "TITLE_BLOCK" with ATTDEF entities
+            # ezdxf uses 'text' parameter for the default value of ATTDEF (not 'default')
             blk = doc.blocks.new("TITLE_BLOCK")
-            blk.add_attdef("PART_NUMBER", insert=(0, 0), dxfattribs={"default": "PN-001"})
-            blk.add_attdef("REVISION", insert=(0, -5), dxfattribs={"default": "A"})
-            blk.add_attdef("MATERIAL", insert=(0, -10), dxfattribs={"default": "STEEL"})
-            blk.add_attdef("SCALE", insert=(0, -15), dxfattribs={"default": "1:1"})
-            blk.add_attdef("UNITS", insert=(0, -20), dxfattribs={"default": "mm"})
+            blk.add_attdef("PART_NUMBER", insert=(0, 0), text="PN-001")
+            blk.add_attdef("REVISION", insert=(0, -5), text="A")
+            blk.add_attdef("MATERIAL", insert=(0, -10), text="STEEL")
+            blk.add_attdef("SCALE", insert=(0, -15), text="1:1")
+            blk.add_attdef("UNITS", insert=(0, -20), text="mm")
             # Insert the block into modelspace
             msp.add_blockref("TITLE_BLOCK", insert=(0, 0))
 
@@ -342,7 +345,7 @@ class TestTitleBlockExtraction:
         """An INSERT referencing a block without 'TITLE' in its name should be ignored."""
         def builder(doc, msp):
             blk = doc.blocks.new("SYMBOL_BLOCK")
-            blk.add_attdef("TAG1", insert=(0, 0), dxfattribs={"default": "value1"})
+            blk.add_attdef("TAG1", insert=(0, 0), text="value1")
             msp.add_blockref("SYMBOL_BLOCK", insert=(0, 0))
 
         data = _make_dxf_bytes(builder=builder)
@@ -354,11 +357,11 @@ class TestTitleBlockExtraction:
         """Title block ATTRIB values should be mapped to TitleBlock fields."""
         def builder(doc, msp):
             blk = doc.blocks.new("TITLE_BLOCK")
-            blk.add_attdef("PART_NUMBER", insert=(0, 0), dxfattribs={"default": "PN-123"})
-            blk.add_attdef("REVISION", insert=(0, -5), dxfattribs={"default": "B"})
-            blk.add_attdef("MATERIAL", insert=(0, -10), dxfattribs={"default": "ALUMINUM"})
-            blk.add_attdef("SCALE", insert=(0, -15), dxfattribs={"default": "2:1"})
-            blk.add_attdef("UNITS", insert=(0, -20), dxfattribs={"default": "in"})
+            blk.add_attdef("PART_NUMBER", insert=(0, 0), text="PN-123")
+            blk.add_attdef("REVISION", insert=(0, -5), text="B")
+            blk.add_attdef("MATERIAL", insert=(0, -10), text="ALUMINUM")
+            blk.add_attdef("SCALE", insert=(0, -15), text="2:1")
+            blk.add_attdef("UNITS", insert=(0, -20), text="in")
             msp.add_blockref("TITLE_BLOCK", insert=(0, 0))
 
         data = _make_dxf_bytes(builder=builder)
@@ -376,7 +379,7 @@ class TestTitleBlockExtraction:
         """Block names containing 'title' (any case) should be recognized."""
         def builder(doc, msp):
             blk = doc.blocks.new("title_block")
-            blk.add_attdef("PART_NUMBER", insert=(0, 0), dxfattribs={"default": "PN-456"})
+            blk.add_attdef("PART_NUMBER", insert=(0, 0), text="PN-456")
             msp.add_blockref("title_block", insert=(0, 0))
 
         data = _make_dxf_bytes(builder=builder)
@@ -389,7 +392,7 @@ class TestTitleBlockExtraction:
         def builder(doc, msp):
             blk = doc.blocks.new("TITLE_BLOCK")
             # Only provide part number; other fields absent
-            blk.add_attdef("PART_NUMBER", insert=(0, 0), dxfattribs={"default": "PN-789"})
+            blk.add_attdef("PART_NUMBER", insert=(0, 0), text="PN-789")
             msp.add_blockref("TITLE_BLOCK", insert=(0, 0))
 
         data = _make_dxf_bytes(builder=builder)
@@ -544,14 +547,14 @@ class TestMixedDrawing:
             msp.add_circle(center=(50, 50), radius=10)
             # Dimension
             msp.add_linear_dim(base=(0, 20), p1=(0, 0), p2=(100, 0)).render()
-            # Tolerance (GD&T FCF)
-            msp.add_tolerance("{GDT;10}|0.1|A", insert=(50, 30))
+            # Tolerance (GD&T FCF) — use new_entity() with 'content' attribute
+            msp.new_entity("TOLERANCE", dxfattribs={"content": "{GDT;10}|0.1|A", "insert": (50, 30)})
             # Text note
             msp.add_text("MATERIAL: STEEL", dxfattribs={"insert": (0, -10)})
-            # Title block
+            # Title block — use text= parameter for ATTDEF default value
             blk = doc.blocks.new("TITLE_BLOCK")
-            blk.add_attdef("PART_NUMBER", insert=(0, 0), dxfattribs={"default": "PN-001"})
-            blk.add_attdef("REVISION", insert=(0, -5), dxfattribs={"default": "A"})
+            blk.add_attdef("PART_NUMBER", insert=(0, 0), text="PN-001")
+            blk.add_attdef("REVISION", insert=(0, -5), text="A")
             msp.add_blockref("TITLE_BLOCK", insert=(200, 0))
 
         data = _make_dxf_bytes(builder=builder)

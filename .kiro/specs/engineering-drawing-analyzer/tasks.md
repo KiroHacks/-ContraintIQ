@@ -50,42 +50,22 @@ The implementation follows the pipeline order: data models → ingestion → par
     - Place in `tests/unit/test_ingestion.py`
     - _Requirements: 1.1, 1.3, 1.4_
 
-- [x] 5. Implement the DXF Parser
-  - [x] 5.1 Set up `DXFParser` class skeleton and geometric entity iteration
-    - Create `DXFParser` class in `src/engineering_drawing_analyzer/parsers/dxf_parser.py` implementing the `DrawingParser` protocol
-    - Open DXF files using `ezdxf.readfile()`; use `ezdxf.recover.readfile()` for structural repair of corrupted files
-    - Iterate modelspace entities: `LINE`, `ARC`, `CIRCLE`, `LWPOLYLINE`, `LEADER`, `MTEXT`, `TEXT`
-    - Collect geometric primitives into `Feature` objects with `feature_type` set from entity type
-    - Raise `ParseError` with byte offset if `ezdxf.recover` cannot repair the file
-    - _Requirements: 1.1, 1.3_
+- [ ] 5. Implement the DXF Parser
+  - Implement `DXFParser.parse()` in `src/engineering_drawing_analyzer/parsers/dxf_parser.py` using `ezdxf`
+  - Iterate modelspace entities: `LINE`, `ARC`, `CIRCLE`, `LWPOLYLINE`, `DIMENSION`, `LEADER`, `TOLERANCE`, `INSERT`, `MTEXT`/`TEXT`
+  - Extract `DIMENSION` entities into `Dimension` objects with value, tolerance, unit, and `LocationReference`
+  - Extract `TOLERANCE` entities (GD&T feature control frames) into `FeatureControlFrame` objects with `gdt_symbol`, `tolerance_value`, `datum_references`, and `material_condition`
+  - Extract `INSERT` entities referencing title block blocks into `TitleBlock`
+  - Use `ezdxf.recover` for structural repair of corrupted files; raise `ParseError` with byte offset if unrecoverable
+  - _Requirements: 1.1, 1.2, 1.3_
 
-  - [x] 5.2 Extract `DIMENSION` entities into `Dimension` objects
-    - Iterate `DIMENSION` entities in modelspace
-    - Extract measurement value, unit (from header variable `$INSUNITS`), and tolerance (from `DIMTP`/`DIMTM` variables or explicit override)
-    - Build `LocationReference` from the dimension's insertion point and layer name
-    - Append each `Dimension` to `GeometricModel.dimensions` and link to the nearest `Feature` via `associated_feature_ids`
-    - _Requirements: 1.2_
-
-  - [x] 5.3 Extract `TOLERANCE` entities into `FeatureControlFrame` objects
-    - Iterate `TOLERANCE` entities in modelspace
-    - Parse the tolerance string to extract `gdt_symbol`, `tolerance_value`, `datum_references` (A/B/C), and `material_condition` (MMC/LMC/RFS)
-    - Build `LocationReference` from the entity's insertion point
-    - Append each `FeatureControlFrame` to `GeometricModel.feature_control_frames`
-    - _Requirements: 1.2_
-
-  - [x] 5.4 Extract `INSERT` entities into `TitleBlock`
-    - Iterate `INSERT` entities; identify title block blocks by block name (e.g. names containing `TITLE`, `TB`, or `BORDER`)
-    - Extract attribute values (`ATTRIB` entities) for part_number, revision, material, scale, and units
-    - Populate `GeometricModel.title_block` with extracted values (leave fields `None` if attribute not found)
-    - _Requirements: 1.2_
-
-  - [ ]* 5.5 Write unit tests for the DXF Parser
+  - [ ]* 5.1 Write unit tests for the DXF Parser
     - Test parsing a minimal valid DXF fixture with known dimensions and GD&T annotations
     - Test that corrupted DXF raises `ParseError` with location info
     - Place in `tests/unit/test_dxf_parser.py`
     - _Requirements: 1.2, 1.3_
 
-- [-] 6. Implement the DWG Parser
+- [x] 6. Implement the DWG Parser
   - Implement `DWGParser.parse()` in `src/engineering_drawing_analyzer/parsers/dwg_parser.py`
   - Convert DWG → DXF temp file using `oda_file_converter` CLI subprocess call
   - Delegate to `DXFParser` after successful conversion
@@ -98,7 +78,7 @@ The implementation follows the pipeline order: data models → ingestion → par
     - Place in `tests/unit/test_dwg_parser.py`
     - _Requirements: 1.2, 1.3_
 
-- [ ] 7. Implement the PDF Parser
+- [x] 7. Implement the PDF Parser
   - Implement `PDFParser.parse()` in `src/engineering_drawing_analyzer/parsers/pdf_parser.py` using `PyMuPDF`
   - Extract vector paths (lines, arcs, curves) from each page using `page.get_drawings()`
   - Extract text annotations using `page.get_text("dict")` to recover dimension text, GD&T symbols, and title block fields
@@ -112,10 +92,10 @@ The implementation follows the pipeline order: data models → ingestion → par
     - Place in `tests/unit/test_pdf_parser.py`
     - _Requirements: 1.2, 1.3_
 
-- [ ] 8. Checkpoint — Ensure all parser and ingestion tests pass
+- [x] 8. Checkpoint — Ensure all parser and ingestion tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 9. Implement the Symbol Detector (DPSS)
+- [x] 9. Implement the Symbol Detector (DPSS)
   - Implement `DetectedSymbol` dataclass and `SymbolDetector` class in `src/engineering_drawing_analyzer/symbol_detector.py`
   - Implement `SymbolDetector.__init__()` — loads DPSS model weights from `model_weights_path`; sets `confidence_threshold`
   - Implement `SymbolDetector.detect()` — runs DPSS over `GeometricModel` primitives and optional raster image; returns `list[DetectedSymbol]`; falls back gracefully to vector-only mode if `raster_image` is `None`
@@ -130,7 +110,7 @@ The implementation follows the pipeline order: data models → ingestion → par
     - Place in `tests/unit/test_symbol_detector.py`
     - _Requirements: 1.2_
 
-- [ ] 10. Implement the Rule Engine framework and `dimension_completeness` module
+- [x] 10. Implement the Rule Engine framework and `dimension_completeness` module
   - Implement `VerificationRule` protocol and `RuleEngine` class in `src/engineering_drawing_analyzer/rule_engine/engine.py`
   - `RuleEngine.run()` applies all registered rules in order, catches per-rule exceptions (logs with rule ID, appends `INFO` issue), and returns the combined `list[Issue]`
   - Implement `dimension_completeness` rules in `src/engineering_drawing_analyzer/rule_engine/dimension_completeness.py`:
@@ -160,7 +140,7 @@ The implementation follows the pipeline order: data models → ingestion → par
     - Place in `tests/unit/test_rule_dimension_completeness.py`
     - _Requirements: 2.1–2.8_
 
-- [ ] 11. Implement `geometric_constraints` rule module
+- [x] 11. Implement `geometric_constraints` rule module
   - Implement rules in `src/engineering_drawing_analyzer/rule_engine/geometric_constraints.py`:
     - `DatumReferenceFrameRule`: verify a valid `Datum_Reference_Frame` exists; missing → `CRITICAL`; missing secondary/tertiary datum → `WARNING`
     - `FeatureOrientationRule`: every `Feature`'s orientation must be fully constrained relative to DRF or another constrained feature; unconstrained DOF → `CRITICAL`
@@ -173,7 +153,7 @@ The implementation follows the pipeline order: data models → ingestion → par
     - Place in `tests/unit/test_rule_geometric_constraints.py`
     - _Requirements: 3.1–3.7_
 
-- [ ] 12. Implement `tolerance_verification` rule module
+- [x] 12. Implement `tolerance_verification` rule module
   - Implement rules in `src/engineering_drawing_analyzer/rule_engine/tolerance_verification.py`:
     - `DimensionToleranceRule`: every `Dimension` must have a `Tolerance` or the model must have `general_tolerance`; missing → `CRITICAL`
     - `FCFCompletenessRule`: `FeatureControlFrame` must have a valid `tolerance_value` and required datum references per ASME Y14.5; missing → `CRITICAL`

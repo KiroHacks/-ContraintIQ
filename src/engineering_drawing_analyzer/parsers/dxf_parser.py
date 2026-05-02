@@ -303,7 +303,7 @@ class DXFParser:
     def _load_document(self, data: bytes, source_path: str) -> EzdxfDrawing:
         """Load the DXF document, attempting recovery on failure."""
         try:
-            doc, _ = ezdxf.recover.readbytes(data)
+            doc, _ = ezdxf.recover.read(io.BytesIO(data))
             return doc
         except ezdxf.DXFStructureError as exc:
             raise ParseError(
@@ -495,7 +495,12 @@ class DXFParser:
     def _extract_fcf(self, entity: DXFEntity) -> Optional[FeatureControlFrame]:
         """Extract a FeatureControlFrame from a TOLERANCE entity."""
         try:
-            tol_str: str = getattr(entity.dxf, "string", "") or ""
+            # ezdxf uses 'content' for the TOLERANCE entity string (not 'string')
+            tol_str: str = (
+                getattr(entity.dxf, "content", None)
+                or getattr(entity.dxf, "string", None)
+                or ""
+            )
 
             gdt_symbol, tolerance_value, datum_references, material_condition = (
                 _parse_tolerance_string(tol_str)
@@ -551,8 +556,12 @@ class DXFParser:
                             tag = (
                                 getattr(blk_entity.dxf, "tag", "") or ""
                             ).strip().lower()
+                            # ezdxf uses 'text' for the default value of ATTDEF
+                            # (not 'default' — that attribute does not exist in ezdxf)
                             default = (
-                                getattr(blk_entity.dxf, "default", "") or ""
+                                getattr(blk_entity.dxf, "text", None)
+                                or getattr(blk_entity.dxf, "default", None)
+                                or ""
                             ).strip()
                             # Only use default if no live attrib value was found
                             if tag and default and tag not in attribs:

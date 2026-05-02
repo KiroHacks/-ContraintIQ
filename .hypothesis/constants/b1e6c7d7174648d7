@@ -1,0 +1,4 @@
+# file: /Users/yunwaddyoo/Desktop/Projects/-ContraintIQ/src/engineering_drawing_analyzer/symbol_detector.py
+# hypothesis_version: 6.131.15
+
+[0.0, 0.05, 0.07, 0.1, 0.4, 0.5, 0.6, 0.7, 0.75, 0.8, 0.95, 'DATUM', 'DIMENSION', 'FEATURE', 'GDT_FCF', 'ML_UNAVAILABLE', 'N/A', 'SYMBOL_DETECTOR', 'TITLE_BLOCK', 'datum_references', 'feature_id', 'feature_type', 'gdt_symbol', 'has_tolerance', 'is_angular', 'is_blind_hole', 'is_threaded', 'label', 'material', 'material_condition', 'part_number', 'revision', 'scale', 'tolerance_value', 'unit', 'units', 'value']
