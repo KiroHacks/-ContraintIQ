@@ -6,16 +6,21 @@
 
 ## Overview
 
-The Engineering Drawing Analyzer is a Python-based backend service that ingests engineering drawings in DXF, DWG, and PDF (vector) formats, parses them into a normalized internal Geometric Model, and runs a rule-based verification engine against that model to produce a structured Verification Report. The report identifies issues with dimension completeness, geometric constraints, tolerances, manufacturing readiness, and ANSI/ASME Y14.5 GD&T compliance, along with corrective action guidance.
+The Engineering Drawing Analyzer is a Python-based backend service that ingests engineering drawings in DXF, DWG, and PDF (vector) formats, parses them into a normalized internal Geometric Model, and runs a two-stage verification pipeline against that model to produce a structured Verification Report. The report identifies issues with dimension completeness, geometric constraints, tolerances, manufacturing readiness, and ANSI/ASME Y14.5 GD&T compliance, along with corrective action guidance.
 
 The system is designed as a pipeline:
 
 ```
-Input File → Parser → Geometric Model → Rule Engine → Issue List → Report Generator → Output
+Input File → Parser → Geometric Model → [Symbol Detector + Rule Engine] → Issue List → Report Generator → Output
 ```
+
+**Two-stage verification:**
+1. **ML Symbol Detection** — A fine-tuned DPSS (Dual-Pathway Symbol Spotter) model, pre-trained on ArchCAD-400K, detects and classifies geometric primitives, GD&T annotations, dimension callouts, and title block regions directly from the drawing. Its output enriches the Geometric Model with detected symbol labels and confidence scores.
+2. **Rule Engine** — Deterministic rules run against the enriched Geometric Model to verify completeness, constraint, tolerance, and ANSI/ASME Y14.5 compliance.
 
 Key design goals:
 - **Format abstraction**: All three input formats (DXF, DWG, PDF) are normalized into the same Geometric Model before any verification logic runs, so rules are written once.
+- **ML-augmented parsing**: The DPSS model catches symbols and annotations that heuristic parsers miss (e.g., GD&T symbols in rasterized PDFs, non-standard dimension callout layouts).
 - **Round-trip fidelity**: The Geometric Model can be serialized to JSON and re-parsed, producing an equivalent model — enabling testing, caching, and debugging.
 - **Extensible rule engine**: Verification rules are registered independently and can be added, removed, or overridden without touching the core pipeline.
 - **Deterministic output**: Given the same Geometric Model, the rule engine always produces the same set of issues.
@@ -24,21 +29,30 @@ Key design goals:
 
 ## Architecture
 
-The system is organized into five layers:
+The system is organized into six layers:
 
 ```mermaid
 graph TD
     A[User / API Client] -->|Upload file| B[Ingestion Layer]
     B -->|Validated bytes| C[Parser Layer]
-    C -->|GeometricModel| D[Rule Engine]
-    D -->|IssueList| E[Report Generator]
-    E -->|JSON / PDF / HTML| A
+    C -->|GeometricModel| D[Symbol Detector]
+    D -->|Enriched GeometricModel| E[Rule Engine]
+    E -->|IssueList| F[Report Generator]
+    F -->|JSON / PDF / HTML| A
 
     subgraph Parser Layer
         C1[DXF Parser - ezdxf]
-        C2[DWG Parser - LibreDWG adapter]
+        C2[DWG Parser - ODA converter + DXF Parser]
         C3[PDF Parser - PyMuPDF adapter]
         C4[Pretty Printer / Serializer]
+    end
+
+    subgraph Symbol Detector
+        D1[DPSS Model - fine-tuned on mechanical drawings]
+        D2[ArchCAD-400K pre-trained weights]
+        D3[Mechanical Drawing Fine-tune Dataset]
+        D2 -->|transfer learning| D1
+        D3 -->|fine-tuning| D1
     end
 
     C --> C1
@@ -54,7 +68,8 @@ graph TD
 | Ingestion | File size validation, format detection, routing to correct parser |
 | Parser | Format-specific reading; produces a `GeometricModel` |
 | Pretty Printer | Serializes `GeometricModel` → JSON; deserializes JSON → `GeometricModel` |
-| Rule Engine | Applies ordered verification rules; collects `Issue` objects |
+| Symbol Detector | Runs DPSS model over drawing primitives; enriches `GeometricModel` with detected symbol labels and confidence scores |
+| Rule Engine | Applies ordered verification rules against the enriched `GeometricModel`; collects `Issue` objects |
 | Report Generator | Renders `IssueList` into JSON, PDF, or HTML output |
 
 ---
@@ -113,7 +128,78 @@ DWG file → oda_file_converter → DXF temp file → DXF Parser → GeometricMo
 - Extracts text annotations using `page.get_text("dict")` to recover dimension text, GD&T symbols, and title block fields
 - Heuristically associates text near geometry to form `Dimension` and `FeatureControlFrame` objects
 
-### 2.3 Pretty Printer / Serializer
+### 2.3 Symbol Detector (DPSS — ArchCAD-400K)
+
+The Symbol Detector is a machine learning component that augments the heuristic parser output with learned symbol recognition. It is based on the **Dual-Pathway Symbol Spotter (DPSS)** architecture introduced with the ArchCAD-400K dataset ([arXiv:2503.22346](https://arxiv.org/abs/2503.22346)).
+
+#### Why DPSS / ArchCAD-400K
+
+ArchCAD-400K provides 413,062 annotated drawing chunks from 5,538 architectural CAD drawings with primitive-level semantic and instance labels across 30+ symbol categories. While the dataset is architectural (floor plans), the DPSS model's core capability — fusing vector primitive features with raster image features via an adaptive fusion module — transfers directly to mechanical drawing symbol spotting. The pre-trained weights give the model a strong prior on geometric primitive patterns (lines, arcs, circles, polylines) that are universal across CAD domains.
+
+#### Fine-Tuning Strategy
+
+The pre-trained DPSS weights are fine-tuned on a mechanical drawing dataset to recognize the mechanical-specific symbol vocabulary:
+
+| Mechanical Symbol Category | Maps to ArchCAD-400K analog |
+|---|---|
+| Dimension callout (linear, radial, angular) | Text + leader line primitives |
+| GD&T feature control frame | Structured text block with border |
+| Datum feature symbol | Labeled geometric primitive |
+| Surface finish callout | Text annotation near surface |
+| Title block region | Structured text block |
+| Hole / thread callout | Circle + text annotation |
+| Section / detail view indicator | Arrow + text annotation |
+
+Fine-tuning data sources:
+- Synthetic mechanical drawings generated from parametric CAD models with known ground-truth annotations
+- Publicly available DXF samples from the `ezdxf` test suite (manually annotated)
+- Any user-contributed labeled drawings (opt-in)
+
+#### Interface
+
+```python
+@dataclass
+class DetectedSymbol:
+    symbol_type: str              # e.g. "DIMENSION", "GDT_FCF", "DATUM", "TITLE_BLOCK"
+    confidence: float             # 0.0 – 1.0
+    primitive_ids: list[str]      # IDs of GeometricModel primitives belonging to this symbol
+    bounding_box: tuple[Point2D, Point2D]
+    attributes: dict              # symbol-type-specific parsed attributes
+
+class SymbolDetector:
+    def __init__(self, model_weights_path: str, confidence_threshold: float = 0.5):
+        ...
+
+    def detect(self, model: GeometricModel, raster_image: Optional[bytes] = None) -> list[DetectedSymbol]:
+        """
+        Runs DPSS over the GeometricModel's primitives (and optionally a raster rendering).
+        Returns detected symbols with confidence scores.
+        Falls back gracefully if raster_image is None (vector-only mode).
+        """
+        ...
+
+    def enrich(self, model: GeometricModel, symbols: list[DetectedSymbol]) -> GeometricModel:
+        """
+        Merges detected symbols into the GeometricModel, updating Feature, Dimension,
+        FeatureControlFrame, and TitleBlock objects with ML-detected labels.
+        Heuristic parser values take precedence over low-confidence ML detections.
+        """
+        ...
+```
+
+#### Confidence Thresholding
+
+- Detections with `confidence >= 0.8`: accepted and merged into the `GeometricModel` unconditionally
+- Detections with `0.5 <= confidence < 0.8`: merged but flagged with `ml_confidence` attribute; rule engine treats these as tentative
+- Detections with `confidence < 0.5`: discarded; heuristic parser result is used
+
+#### Fallback Behavior
+
+If the DPSS model is unavailable (weights not loaded, GPU OOM, inference timeout), the pipeline falls back to heuristic-only parsing. A `WARNING` issue is appended to the report noting that ML-assisted symbol detection was unavailable and results may be incomplete.
+
+---
+
+### 2.4 Pretty Printer / Serializer
 
 ```python
 class GeometricModelSerializer:
@@ -128,7 +214,7 @@ class GeometricModelSerializer:
 
 The serialized format is a JSON object with a `schema_version` field to support future migrations. All geometry coordinates are stored as lists of floats. Enumerations are stored as their string names.
 
-### 2.4 Rule Engine
+### 2.5 Rule Engine
 
 ```python
 class RuleEngine:
@@ -164,7 +250,7 @@ Rules are grouped into modules and registered at startup:
 | `manufacturing_readiness` | Title block check, surface finish check, hole specification check, view sufficiency check, note contradiction check |
 | `gdt_compliance` | Symbol set validation, composite FCF rules, datum feature symbol placement |
 
-### 2.5 Report Generator
+### 2.6 Report Generator
 
 ```python
 class ReportGenerator:
@@ -263,6 +349,8 @@ class Feature:
     is_angular: bool = False
     is_threaded: bool = False
     is_blind_hole: bool = False
+    ml_confidence: Optional[float] = None   # set when feature_type was assigned by DPSS model
+    ml_symbol_type: Optional[str] = None    # raw DPSS symbol category label
 
 @dataclass
 class TitleBlock:
@@ -533,6 +621,7 @@ tests/
     test_dwg_parser.py
     test_pdf_parser.py
     test_serializer.py
+    test_symbol_detector.py
     test_rule_dimension_completeness.py
     test_rule_geometric_constraints.py
     test_rule_tolerance_verification.py
@@ -546,9 +635,14 @@ tests/
     test_systemic_patterns.py   # Property 8
     test_gdt_symbols.py         # Property 9
     test_corrective_actions.py  # Property 10
+  integration/
+    test_dpss_pipeline.py       # DPSS model end-to-end detection
   fixtures/
     sample_drawings/            # DXF, DWG, PDF test files
     expected_reports/           # Golden JSON reports for regression
+    labeled_mechanical/         # Annotated mechanical drawing fixtures for DPSS tests
+scripts/
+  evaluate_dpss.py              # Fine-tuning evaluation (PQ/SQ/RQ metrics)
 ```
 
 ### Property Test Configuration
@@ -568,3 +662,23 @@ The 60-second SLA (Requirement 6.6) is validated with a benchmark test against a
 - End-to-end tests parse real DXF sample files (from the `ezdxf` test suite) through the full pipeline and assert report structure.
 - DWG integration tests use a small set of checked-in DWG fixtures converted via ODA File Converter in CI.
 - PDF integration tests use vector PDFs exported from a CAD tool.
+
+### ML Model Testing (DPSS / ArchCAD-400K)
+
+The Symbol Detector has its own test tier:
+
+**Unit tests** (`tests/unit/test_symbol_detector.py`):
+- Verify `enrich()` correctly merges high-confidence detections into the `GeometricModel`
+- Verify low-confidence detections (`< 0.5`) are discarded
+- Verify fallback behavior when model weights are unavailable
+
+**Integration tests** (`tests/integration/test_dpss_pipeline.py`):
+- Run the fine-tuned DPSS model against a small set of labeled mechanical drawing fixtures
+- Assert that known GD&T symbols, dimension callouts, and title block regions are detected with `confidence >= 0.8`
+- Assert that the enriched `GeometricModel` contains the expected `Feature` and `FeatureControlFrame` objects
+
+**Fine-tuning validation** (`scripts/evaluate_dpss.py`):
+- Evaluates the fine-tuned model on a held-out mechanical drawing test split
+- Reports Panoptic Quality (PQ), Segmentation Quality (SQ), and Recognition Quality (RQ) metrics — the same metrics used in the ArchCAD-400K paper — to track model quality over training iterations
+
+**Dataset access**: ArchCAD-400K is available at [huggingface.co/datasets/jackluoluo/ArchCAD](https://huggingface.co/datasets/jackluoluo/ArchCAD) under a non-commercial research license. Access requires completing a request form (approval within 3 business days). The pre-trained DPSS weights are distributed with the dataset.

@@ -1,0 +1,11 @@
+LICENSE
+pyproject.toml
+src/engineering_drawing_analyzer/__init__.py
+src/engineering_drawing_analyzer/exceptions.py
+src/engineering_drawing_analyzer/models.py
+src/engineering_drawing_analyzer/serializer.py
+src/engineering_drawing_analyzer.egg-info/PKG-INFO
+src/engineering_drawing_analyzer.egg-info/SOURCES.txt
+src/engineering_drawing_analyzer.egg-info/dependency_links.txt
+src/engineering_drawing_analyzer.egg-info/requires.txt
+src/engineering_drawing_analyzer.egg-info/top_level.txt
