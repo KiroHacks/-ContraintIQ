@@ -65,7 +65,7 @@ The implementation follows the pipeline order: data models → ingestion → par
     - Place in `tests/unit/test_dxf_parser.py`
     - _Requirements: 1.2, 1.3_
 
-- [ ] 6. Implement the DWG Parser
+- [x] 6. Implement the DWG Parser
   - Implement `DWGParser.parse()` in `src/engineering_drawing_analyzer/parsers/dwg_parser.py`
   - Convert DWG → DXF temp file using `oda_file_converter` CLI subprocess call
   - Delegate to `DXFParser` after successful conversion
