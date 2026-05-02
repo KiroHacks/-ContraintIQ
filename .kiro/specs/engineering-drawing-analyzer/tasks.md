@@ -50,22 +50,42 @@ The implementation follows the pipeline order: data models → ingestion → par
     - Place in `tests/unit/test_ingestion.py`
     - _Requirements: 1.1, 1.3, 1.4_
 
-- [ ] 5. Implement the DXF Parser
-  - Implement `DXFParser.parse()` in `src/engineering_drawing_analyzer/parsers/dxf_parser.py` using `ezdxf`
-  - Iterate modelspace entities: `LINE`, `ARC`, `CIRCLE`, `LWPOLYLINE`, `DIMENSION`, `LEADER`, `TOLERANCE`, `INSERT`, `MTEXT`/`TEXT`
-  - Extract `DIMENSION` entities into `Dimension` objects with value, tolerance, unit, and `LocationReference`
-  - Extract `TOLERANCE` entities (GD&T feature control frames) into `FeatureControlFrame` objects with `gdt_symbol`, `tolerance_value`, `datum_references`, and `material_condition`
-  - Extract `INSERT` entities referencing title block blocks into `TitleBlock`
-  - Use `ezdxf.recover` for structural repair of corrupted files; raise `ParseError` with byte offset if unrecoverable
-  - _Requirements: 1.1, 1.2, 1.3_
+- [x] 5. Implement the DXF Parser
+  - [x] 5.1 Set up `DXFParser` class skeleton and geometric entity iteration
+    - Create `DXFParser` class in `src/engineering_drawing_analyzer/parsers/dxf_parser.py` implementing the `DrawingParser` protocol
+    - Open DXF files using `ezdxf.readfile()`; use `ezdxf.recover.readfile()` for structural repair of corrupted files
+    - Iterate modelspace entities: `LINE`, `ARC`, `CIRCLE`, `LWPOLYLINE`, `LEADER`, `MTEXT`, `TEXT`
+    - Collect geometric primitives into `Feature` objects with `feature_type` set from entity type
+    - Raise `ParseError` with byte offset if `ezdxf.recover` cannot repair the file
+    - _Requirements: 1.1, 1.3_
 
-  - [ ]* 5.1 Write unit tests for the DXF Parser
+  - [x] 5.2 Extract `DIMENSION` entities into `Dimension` objects
+    - Iterate `DIMENSION` entities in modelspace
+    - Extract measurement value, unit (from header variable `$INSUNITS`), and tolerance (from `DIMTP`/`DIMTM` variables or explicit override)
+    - Build `LocationReference` from the dimension's insertion point and layer name
+    - Append each `Dimension` to `GeometricModel.dimensions` and link to the nearest `Feature` via `associated_feature_ids`
+    - _Requirements: 1.2_
+
+  - [x] 5.3 Extract `TOLERANCE` entities into `FeatureControlFrame` objects
+    - Iterate `TOLERANCE` entities in modelspace
+    - Parse the tolerance string to extract `gdt_symbol`, `tolerance_value`, `datum_references` (A/B/C), and `material_condition` (MMC/LMC/RFS)
+    - Build `LocationReference` from the entity's insertion point
+    - Append each `FeatureControlFrame` to `GeometricModel.feature_control_frames`
+    - _Requirements: 1.2_
+
+  - [x] 5.4 Extract `INSERT` entities into `TitleBlock`
+    - Iterate `INSERT` entities; identify title block blocks by block name (e.g. names containing `TITLE`, `TB`, or `BORDER`)
+    - Extract attribute values (`ATTRIB` entities) for part_number, revision, material, scale, and units
+    - Populate `GeometricModel.title_block` with extracted values (leave fields `None` if attribute not found)
+    - _Requirements: 1.2_
+
+  - [ ]* 5.5 Write unit tests for the DXF Parser
     - Test parsing a minimal valid DXF fixture with known dimensions and GD&T annotations
     - Test that corrupted DXF raises `ParseError` with location info
     - Place in `tests/unit/test_dxf_parser.py`
     - _Requirements: 1.2, 1.3_
 
-- [ ] 6. Implement the DWG Parser
+- [-] 6. Implement the DWG Parser
   - Implement `DWGParser.parse()` in `src/engineering_drawing_analyzer/parsers/dwg_parser.py`
   - Convert DWG → DXF temp file using `oda_file_converter` CLI subprocess call
   - Delegate to `DXFParser` after successful conversion
