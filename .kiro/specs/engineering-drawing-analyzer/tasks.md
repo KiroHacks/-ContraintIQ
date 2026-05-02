@@ -110,7 +110,7 @@ The implementation follows the pipeline order: data models → ingestion → par
     - Place in `tests/unit/test_symbol_detector.py`
     - _Requirements: 1.2_
 
-- [ ] 10. Implement the Rule Engine framework and `dimension_completeness` module
+- [x] 10. Implement the Rule Engine framework and `dimension_completeness` module
   - Implement `VerificationRule` protocol and `RuleEngine` class in `src/engineering_drawing_analyzer/rule_engine/engine.py`
   - `RuleEngine.run()` applies all registered rules in order, catches per-rule exceptions (logs with rule ID, appends `INFO` issue), and returns the combined `list[Issue]`
   - Implement `dimension_completeness` rules in `src/engineering_drawing_analyzer/rule_engine/dimension_completeness.py`:

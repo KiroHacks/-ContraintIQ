@@ -1,0 +1,4 @@
+# file: /Users/yunwaddyoo/Desktop/Projects/-ContraintIQ/src/engineering_drawing_analyzer/rule_engine/dimension_completeness.py
+# hypothesis_version: 6.131.15
+
+[', ', 'ALIGNED', 'ANGLE', 'ANGULAR', 'ANGULAR_3P', 'ARC_LENGTH', 'ASME Y14.5-2018 §7.2', 'ASME Y14.5-2018 §7.7', 'COORDINATE', 'DIAMETER', 'LINEAR', 'ORDINATE', 'OVER_DIMENSION', 'OVER_DIMENSION_RULE', 'POSITION', 'RADIAL', 'RADIUS', 'SIZE', 'SIZE_DIMENSION_RULE', 'TRUE_POSITION', 'UNKNOWN', '⊕']
