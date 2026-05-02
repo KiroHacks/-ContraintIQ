@@ -95,7 +95,7 @@ The implementation follows the pipeline order: data models → ingestion → par
 - [x] 8. Checkpoint — Ensure all parser and ingestion tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 9. Implement the Symbol Detector (DPSS)
+- [x] 9. Implement the Symbol Detector (DPSS)
   - Implement `DetectedSymbol` dataclass and `SymbolDetector` class in `src/engineering_drawing_analyzer/symbol_detector.py`
   - Implement `SymbolDetector.__init__()` — loads DPSS model weights from `model_weights_path`; sets `confidence_threshold`
   - Implement `SymbolDetector.detect()` — runs DPSS over `GeometricModel` primitives and optional raster image; returns `list[DetectedSymbol]`; falls back gracefully to vector-only mode if `raster_image` is `None`
