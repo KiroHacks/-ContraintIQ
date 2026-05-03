@@ -21,14 +21,14 @@ The implementation follows the pipeline order: data models → ingestion → par
   - Implement `models_equivalent()` helper function for structural equality comparison (used in tests)
   - _Requirements: 1.5, 1.6_
 
-  - [ ]* 2.1 Write property test for round-trip fidelity (Property 1)
+  - [x]* 2.1 Write property test for round-trip fidelity (Property 1)
     - **Property 1: Geometric Model Round-Trip Fidelity**
     - Use `@given(st.builds(GeometricModel, ...))` with Hypothesis strategies for all nested types
     - Assert `models_equivalent(model, deserialize(serialize(model)))` for all generated models
     - Place in `tests/property/test_round_trip.py`
     - **Validates: Requirements 1.2, 1.5, 1.6**
 
-  - [ ]* 2.2 Write unit tests for the serializer
+  - [x]* 2.2 Write unit tests for the serializer
     - Test serialization of a fully-populated `GeometricModel` fixture
     - Test deserialization of a known JSON dict back to the expected model
     - Test that `schema_version` field is preserved
@@ -43,14 +43,14 @@ The implementation follows the pipeline order: data models → ingestion → par
   - Implement `IngestionService.detect_format()` — detects `DrawingFormat` from magic bytes and file extension; raises `UnsupportedFormatError` listing supported formats for unrecognized files
   - _Requirements: 1.1, 1.3, 1.4_
 
-  - [ ]* 4.1 Write unit tests for the Ingestion Layer
+  - [x]* 4.1 Write unit tests for the Ingestion Layer
     - Test that files over 100 MB raise `FileTooLargeError` with correct size values
     - Test format detection for DXF, DWG, and PDF magic bytes
     - Test that unrecognized formats raise `UnsupportedFormatError` listing supported formats
     - Place in `tests/unit/test_ingestion.py`
     - _Requirements: 1.1, 1.3, 1.4_
 
-- [ ] 5. Implement the DXF Parser
+- [x] 5. Implement the DXF Parser
   - Implement `DXFParser.parse()` in `src/engineering_drawing_analyzer/parsers/dxf_parser.py` using `ezdxf`
   - Iterate modelspace entities: `LINE`, `ARC`, `CIRCLE`, `LWPOLYLINE`, `DIMENSION`, `LEADER`, `TOLERANCE`, `INSERT`, `MTEXT`/`TEXT`
   - Extract `DIMENSION` entities into `Dimension` objects with value, tolerance, unit, and `LocationReference`
@@ -59,7 +59,7 @@ The implementation follows the pipeline order: data models → ingestion → par
   - Use `ezdxf.recover` for structural repair of corrupted files; raise `ParseError` with byte offset if unrecoverable
   - _Requirements: 1.1, 1.2, 1.3_
 
-  - [ ]* 5.1 Write unit tests for the DXF Parser
+  - [x]* 5.1 Write unit tests for the DXF Parser
     - Test parsing a minimal valid DXF fixture with known dimensions and GD&T annotations
     - Test that corrupted DXF raises `ParseError` with location info
     - Place in `tests/unit/test_dxf_parser.py`
@@ -72,7 +72,7 @@ The implementation follows the pipeline order: data models → ingestion → par
   - Raise `ParseError` with ODA converter exit code and stderr on conversion failure
   - _Requirements: 1.1, 1.2, 1.3_
 
-  - [ ]* 6.1 Write unit tests for the DWG Parser
+  - [x]* 6.1 Write unit tests for the DWG Parser
     - Test that a successful ODA conversion delegates correctly to `DXFParser`
     - Test that ODA converter failure raises `ParseError` with exit code
     - Place in `tests/unit/test_dwg_parser.py`
@@ -121,21 +121,21 @@ The implementation follows the pipeline order: data models → ingestion → par
   - All `CRITICAL` issues must include `corrective_action` (non-null, non-empty) and `standard_reference` where applicable
   - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 8.1, 8.2_
 
-  - [ ]* 10.1 Write property test for missing required dimension (Property 2)
+  - [x]* 10.1 Write property test for missing required dimension (Property 2)
     - **Property 2: Missing Required Dimension Produces Critical Issue**
     - Generate `GeometricModel` instances with features missing size, position, or angular dimensions
     - Assert at least one `CRITICAL` issue referencing the feature is produced
     - Place in `tests/property/test_issue_severity.py`
     - **Validates: Requirements 2.1, 2.2, 2.3, 2.4, 2.7, 2.8**
 
-  - [ ]* 10.2 Write property test for over-dimension detection (Property 3)
+  - [x]* 10.2 Write property test for over-dimension detection (Property 3)
     - **Property 3: Over-Dimension Detection Produces Warning**
     - Generate `GeometricModel` instances with features having conflicting dimensions
     - Assert at least one `WARNING` issue referencing the conflicting dimensions is produced
     - Place in `tests/property/test_issue_severity.py`
     - **Validates: Requirements 2.5, 2.6**
 
-  - [ ]* 10.3 Write unit tests for dimension_completeness rules
+  - [x]* 10.3 Write unit tests for dimension_completeness rules
     - Test each rule with concrete fixtures: feature with no dimensions, feature with conflicting dimensions, angular feature without angular dimension
     - Place in `tests/unit/test_rule_dimension_completeness.py`
     - _Requirements: 2.1–2.8_
@@ -148,7 +148,7 @@ The implementation follows the pipeline order: data models → ingestion → par
   - All `CRITICAL` issues must include `corrective_action` and `standard_reference`
   - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 8.1, 8.2_
 
-  - [ ]* 11.1 Write unit tests for geometric_constraints rules
+  - [x]* 11.1 Write unit tests for geometric_constraints rules
     - Test missing DRF, missing secondary datum, unconstrained feature, undefined datum reference
     - Place in `tests/unit/test_rule_geometric_constraints.py`
     - _Requirements: 3.1–3.7_
@@ -175,12 +175,12 @@ The implementation follows the pipeline order: data models → ingestion → par
     - Place in `tests/property/test_issue_severity.py`
     - **Validates: Requirements 4.5, 4.6**
 
-  - [ ]* 12.3 Write unit tests for tolerance_verification rules
+  - [x]* 12.3 Write unit tests for tolerance_verification rules
     - Test dimension with no tolerance and no general tolerance block, malformed FCF, tolerance stack-up scenario
     - Place in `tests/unit/test_rule_tolerance_verification.py`
     - _Requirements: 4.1–4.6_
 
-- [ ] 13. Checkpoint — Ensure all rule engine tests pass so far
+- [x] 13. Checkpoint — Ensure all rule engine tests pass so far
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 14. Implement `manufacturing_readiness` rule module
@@ -205,7 +205,7 @@ The implementation follows the pipeline order: data models → ingestion → par
     - Place in `tests/unit/test_rule_manufacturing_readiness.py`
     - _Requirements: 5.1–5.10_
 
-- [ ] 15. Implement `gdt_compliance` rule module
+- [x] 15. Implement `gdt_compliance` rule module
   - Implement rules in `src/engineering_drawing_analyzer/rule_engine/gdt_compliance.py`:
     - `GDTSymbolSetRule`: validate all `FeatureControlFrame.gdt_symbol` values against the ANSI/ASME Y14.5-2018 standard symbol set; non-standard → `WARNING`
     - `CompositeFCFRule`: verify composite feature control frames follow Y14.5 pattern-locating and feature-relating tolerance zone rules; violation → `CRITICAL`
@@ -251,10 +251,10 @@ The implementation follows the pipeline order: data models → ingestion → par
     - Place in `tests/property/test_systemic_patterns.py`
     - **Validates: Requirements 8.3**
 
-- [ ] 17. Checkpoint — Ensure all rule engine and wiring tests pass
+- [x] 17. Checkpoint — Ensure all rule engine and wiring tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 18. Implement the Report Generator
+- [x] 18. Implement the Report Generator
   - Implement `ReportGenerator.generate()` in `src/engineering_drawing_analyzer/report_generator.py`
   - **JSON format**: serialize `VerificationReport` to JSON using Python's `json` module; validate all required fields are present with correct types; `issue_counts` must match actual counts per severity
   - **HTML format**: render using Jinja2 template (`templates/report.html.j2`); self-contained single-file output with embedded CSS

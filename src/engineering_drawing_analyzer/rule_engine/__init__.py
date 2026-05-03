@@ -35,6 +35,11 @@ from .tolerance_verification import (
     FCFCompletenessRule,
     ToleranceStackUpRule,
 )
+from .gdt_compliance import (
+    GDTSymbolSetRule,
+    CompositeFCFRule,
+    DatumFeatureSymbolPlacementRule,
+)
 
 # --- manufacturing_readiness ---
 from .manufacturing_readiness import (
@@ -69,6 +74,7 @@ __all__ = [
     "DimensionToleranceRule",
     "FCFCompletenessRule",
     "ToleranceStackUpRule",
+<<<<<<< HEAD
     # manufacturing_readiness
     "TitleBlockRule",
     "SurfaceFinishRule",
@@ -82,6 +88,11 @@ __all__ = [
     # Factory and report helpers
     "create_default_engine",
     "build_verification_report",
+=======
+    "GDTSymbolSetRule",
+    "CompositeFCFRule",
+    "DatumFeatureSymbolPlacementRule",
+>>>>>>> e907540421d1286171f4df874a00057add8f4be7
 ]
 
 
