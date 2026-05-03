@@ -1,4 +1,0 @@
-# file: C:\Users\vaish\Documents\kirohacks\-ContraintIQ\src\engineering_drawing_analyzer\rule_engine\__init__.py
-# hypothesis_version: 6.131.15
-
-['AngularDimensionRule', 'CompositeFCFRule', 'FCFCompletenessRule', 'Fail', 'GDTSymbolSetRule', 'OverDimensionRule', 'Pass', 'RuleEngine', 'SizeDimensionRule', 'SurfaceFinishRule', 'TitleBlockRule', 'ToleranceStackUpRule', 'VerificationRule', 'ViewSufficiencyRule']

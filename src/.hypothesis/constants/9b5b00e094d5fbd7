@@ -1,4 +1,0 @@
-# file: C:\Users\vaish\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\ezdxf\entities\polyline.py
-# hypothesis_version: 6.131.15
-
-[0.0, 128, 210, '0', 'AcDb2dPolyline', 'AcDb2dVertex', 'AcDb3dPolyline', 'AcDb3dPolylineVertex', 'AcDbFaceRecord', 'AcDbPolyFaceMesh', 'AcDbPolygonMesh', 'AcDbPolylineDummy', 'AcDbVertex', 'DXFVertex', 'POLYLINE', 'Polyface', 'Polyline', 'Polymesh', 'VERTEX', 'b', 'bulge', 'default_end_width', 'default_start_width', 'e', 'elevation', 'end_width', 'extrusion', 'face_record', 'flags', 'indices', 'layer', 'linetype', 'location', 'm_count', 'm_smooth_density', 'n_count', 'n_smooth_density', 'owner', 's', 'smooth_type', 'start_width', 'tangent', 'thickness', 'v', 'vertex_identifier', 'vertices', 'vtx0', 'vtx1', 'vtx2', 'vtx3', 'x', 'xy', 'xyseb', 'xyz', 'y']

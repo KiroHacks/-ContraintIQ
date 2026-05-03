@@ -1,4 +1,0 @@
-# file: C:\Users\vaish\Documents\kirohacks\-ContraintIQ\src\engineering_drawing_analyzer\parsers\dwg_parser.py
-# hypothesis_version: 6.131.15
-
-[120, '*.DWG', '*.DXF', '*.dxf', '.dwg', '0', '1', 'ACAD2018', 'DWG', 'DXF', 'ODAFileConverter', 'ODA_FILE_CONVERTER', 'drawing.dwg', 'eda_dwg_', 'input', 'output', 'replace']

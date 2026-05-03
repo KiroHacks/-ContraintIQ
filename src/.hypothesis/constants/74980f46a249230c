@@ -1,4 +1,0 @@
-# file: C:\Users\vaish\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\fontTools\ttLib\ttFont.py
-# hypothesis_version: 6.131.15
-
-[65535, '\x00\x01\x00\x00', '%s.alt%d', "'%s' table not found", '.', '.notdef', 'CFF ', 'CFF2', "Compiling '%s' table", 'DSIG', 'ERROR', 'GlyphID', 'GlyphOrder', 'LTSH', "No '%s' table found.", 'Not a variable font', 'OS/2', 'OS_2', 'PCLT', 'VARC', 'VDMX', '[0-9]', '[A-Z]', '[a-z0-9]', '_', 'avar', 'cmap', 'cvt ', 'decompilation error', 'ensureDecompiled', 'fpgm', 'fvar', 'gasp', 'glyf', 'glyph', 'glyph%.5d', 'glyphOrder', 'hdmx', 'head', 'hhea', 'hmtx', 'kern', 'loca', 'maxp', 'name', 'post', 'prep', 'quiet', 'raw', 'rb', 'read', "reusing '%s' table", 'seek', 'seekable', 'table_', 'ttFont', 'u%X', 'uni%04X', 'verbose', 'wb', 'write']

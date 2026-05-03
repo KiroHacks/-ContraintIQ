@@ -1,3 +1,36 @@
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
 *.egg-info/
+*.egg
+.eggs/
+dist/
+build/
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Testing / hypothesis
+.hypothesis/
+.pytest_cache/
+.benchmarks/
+*.benchmark
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env files (never commit secrets)
+.env
+.env.*
+
+# Logs
+*.log

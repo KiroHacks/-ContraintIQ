@@ -1,4 +1,0 @@
-# file: C:\Users\vaish\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\fontTools\misc\xmlWriter.py
-# hypothesis_version: 6.131.15
-
-[100, 127, 55296, 57344, 65534, 65535, ' %s="%s"', ' -->', '"', '&', '&#', '&#13;', '&amp;', '&gt;', '&lt;', '&quot;', '-', '...', ';', '<', '<!-- ', '<![CDATA[', '<%s%s/>', '<%s%s>', '<&>', '</%s>', '>', '?', ']]>', '_', 'fontTools.ttx', 'latin-1', 'nonmatching endtag', 'utf8', 'utf_8', 'wb', 'write']

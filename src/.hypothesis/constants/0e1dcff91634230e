@@ -1,4 +1,0 @@
-# file: C:\Users\vaish\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\fontTools\ttLib\sfnt.py
-# hypothesis_version: 6.131.15
-
-[b'\x00', b'\x00\x00\x00\x00', b'ttcf', b'wOFF', 100, 4096, 65536, 131072, 2981146554, 4294967295, '\x00\x01\x00\x00', "<%s '%s' at %x>", '<%s at %x>', '>%dL', '>HH', '>L', 'OTTO', "Unknown flavor '%s'", '__main__', '_filename', '_filepos', 'decodeData', 'encodeData', 'file', 'flavor', 'head', 'headTable', 'rb', 'tag', 'true', 'ttcf', 'wOF2', 'wOFF', 'woff', 'woff2', 'zlibCompressionLevel']

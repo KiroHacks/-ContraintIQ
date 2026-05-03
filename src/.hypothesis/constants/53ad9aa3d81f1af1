@@ -1,4 +1,0 @@
-# file: C:\Users\vaish\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\ezdxf\entities\underlay.py
-# hypothesis_version: 6.131.15
-
-[100, 101, 210, 280, 281, 282, 340, 'DGNDEFINITION', 'DGNUNDERLAY', 'DWFDEFINITION', 'DWFUNDERLAY', 'DgnDefinition', 'DgnUnderlay', 'DwfDefinition', 'DwfUnderlay', 'PDFDEFINITION', 'PDFREFERENCE', 'PDFUNDERLAY', 'PdfDefinition', 'PdfUnderlay', 'UNDERLAY', 'UNDERLAYDEFINITION', 'Underlay', 'UnderlayDefinition', 'contrast', 'extrusion', 'fade', 'filename', 'flags', 'insert', 'name', 'rotation', 'scale_x', 'scale_y', 'scale_z', 'underlay_def_handle']

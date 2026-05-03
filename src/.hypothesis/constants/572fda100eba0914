@@ -1,4 +1,0 @@
-# file: C:\Users\vaish\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\ezdxf\recover.py
-# hypothesis_version: 6.131.15
-
-[b'\r\n', b'$ACADVER', b'$DWGCODEPAGE', b'EOF', b'[+-]?\\d+', b'[+-]?\\d+(:?\\.\\d*)?(:?[eE][+-]?\\d+)?', 100, 999, '$ACADVER', 'AC1009', 'ACAD_GROUP', 'ACDSDATA', 'AC[0-9]{4}', 'BLOCKS', 'BLOCK_RECORD', 'CLASSES', 'DICTIONARY', 'ENDBLK', 'ENDSEC', 'ENDTAB', 'ENTITIES', 'EOF', 'HEADER', 'None', 'OBJECTS', 'SECTION', 'SEQEND', 'SectionDict', 'TABLE', 'TABLES', '[+-]?\\d+', 'ezdxf', 'ignore', 'rb', 'read', 'readfile', 'strict', 'surrogateescape', 'utf8']

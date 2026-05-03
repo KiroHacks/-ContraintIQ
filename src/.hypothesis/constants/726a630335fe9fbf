@@ -1,4 +1,0 @@
-# file: C:\Users\vaish\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\ezdxf\path\tools.py
-# hypothesis_version: 6.131.15
-
-[0.0, 1e-15, 1e-12, 1e-10, 1e-09, 1e-06, 0.0001, 0.01, 1.0, 2.0, 'add_2d_polyline', 'add_bezier3p', 'add_bezier4p', 'add_ellipse', 'add_spline', 'bbox', 'chamfer', 'chamfer2', 'fillet', 'fit_paths_into_box', 'internal error', 'invalid target size', 'is_rectangular', 'lines_to_curve3', 'lines_to_curve4', 'polygonal_fillet', 'precise_bbox', 'render_hatches', 'render_lines', 'render_lwpolylines', 'render_mpolygons', 'render_polylines2d', 'render_polylines3d', 'single_paths', 'to_multi_path', 'transform_paths', 'triangulate']

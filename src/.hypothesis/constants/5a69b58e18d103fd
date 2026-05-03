@@ -1,4 +1,0 @@
-# file: C:\Users\vaish\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\ezdxf\entities\view.py
-# hypothesis_version: 6.131.15
-
-[110, 111, 112, 146, 281, 332, 334, 345, 346, 348, 361, 'AcDbViewTableRecord', 'VIEW', 'View', 'back_clipping', 'background_handle', 'base_ucs_handle', 'camera_plottable', 'center', 'direction', 'elevation', 'ezdxf', 'flags', 'focal_length', 'front_clipping', 'height', 'name', 'render_mode', 'sun_handle', 'target', 'ucs', 'ucs_handle', 'ucs_origin', 'ucs_ortho_type', 'ucs_xaxis', 'ucs_yaxis', 'view_mode', 'view_twist', 'visual_style_handle', 'width']

@@ -1,4 +1,0 @@
-# file: C:\Users\vaish\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\ezdxf\entities\geodata.py
-# hypothesis_version: 6.131.15
-
-[1.0, 141, 142, 143, 210, 255, 294, 301, 302, 303, 305, 306, 307, 330, '0', '1', 'AcDbGeoData', 'Alias', 'AxisAbbreviation', 'AxisOrder', 'CoordinateSystem', 'E', 'EPSG Code', 'GEODATA', 'GeoData', 'MeshVertices', 'N', 'Namespace', 'S', 'W', '^J', 'block_record_handle', 'coordinate_type', 'design_point', 'ezdxf', 'geo_rss_tag', 'horizontal_units', 'id', 'north_direction', 'observation_from_tag', 'observation_to_tag', 'reference_point', 'sea_level_correction', 'sea_level_elevation', 'type', 'up_direction', 'user_scale_factor', 'version', 'vertical_unit_scale', 'vertical_units', 'xmlns="[^"]*"']

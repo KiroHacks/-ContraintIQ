@@ -1,4 +1,0 @@
-# file: C:\Users\vaish\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\ezdxf\entities\mpolygon.py
-# hypothesis_version: 6.131.15
-
-[210, 'AcDbMPolygon', 'MPOLYGON', 'MPolygon', 'SOLID', 'annotated_boundary', 'degenerated_loops', 'elevation', 'extrusion', 'ezdxf', 'fill_color', 'hatch_style', 'n_seed_points', 'offset_vector', 'pattern_angle', 'pattern_double', 'pattern_name', 'pattern_scale', 'pattern_type', 'pixel_size', 'solid_fill', 'version']

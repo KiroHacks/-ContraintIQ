@@ -1,4 +1,0 @@
-# file: C:\Users\vaish\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\ezdxf\entities\visualstyle.py
-# hypothesis_version: 6.131.15
-
-[170, 171, 173, 174, 175, 177, 290, 291, 421, 'AcDbVisualStyle', 'VISUALSTYLE', 'VisualStyle', 'brightness', 'color1', 'color2', 'description', 'edge_color', 'edge_crease_angle', 'edge_halo_gap', 'edge_hide_precision', 'edge_isoline_count', 'edge_jitter', 'edge_modifiers', 'edge_obscured_color', 'edge_opacity_level', 'edge_overhang', 'edge_style', 'edge_style_apply', 'edge_style_model', 'edge_width', 'face_color_mode', 'face_lighting_model', 'face_modifiers', 'face_opacity_level', 'face_specular_level', 'shadow_type', 'style_type', 'unknown1']

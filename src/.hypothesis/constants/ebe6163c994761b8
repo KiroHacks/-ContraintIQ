@@ -1,4 +1,0 @@
-# file: C:\Users\vaish\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\fontTools\misc\fixedTools.py
-# hypothesis_version: 6.131.15
-
-[1.0, 32767, 65536, '0', 'MAX_F2DOT14', 'ensureVersionIsLong', 'fixedToFloat', 'fixedToStr', 'floatToFixed', 'floatToFixedToFloat', 'floatToFixedToStr', 'strToFixed', 'strToFixedToFloat', 'versionToFixed']

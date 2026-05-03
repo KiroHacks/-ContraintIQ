@@ -1,4 +1,0 @@
-# file: C:\Users\vaish\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\ezdxf\entities\acad_table.py
-# hypothesis_version: 6.131.15
-
-[171, 280, 281, 301, 302, 342, 343, '0', 'ACAD_TABLE', 'ACAD_TABLESTYLE', 'AcDbBlockReference', 'AcDbTable', 'AcDbTableStyle', 'AcadTable', 'TABLESTYLE', 'acad_table_to_block', 'block_record_handle', 'flags', 'flow_direction', 'geometry', 'horizontal_direction', 'insert', 'layer', 'n_cols', 'n_rows', 'name', 'override_flag', 'suppress_title', 'table_style_id', 'table_value', 'version', 'vertical_cell_margin']
