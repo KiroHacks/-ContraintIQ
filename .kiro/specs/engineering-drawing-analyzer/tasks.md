@@ -135,7 +135,7 @@ The implementation follows the pipeline order: data models → ingestion → par
     - Place in `tests/property/test_issue_severity.py`
     - **Validates: Requirements 2.5, 2.6**
 
-  - [ ]* 10.3 Write unit tests for dimension_completeness rules
+  - [x]* 10.3 Write unit tests for dimension_completeness rules
     - Test each rule with concrete fixtures: feature with no dimensions, feature with conflicting dimensions, angular feature without angular dimension
     - Place in `tests/unit/test_rule_dimension_completeness.py`
     - _Requirements: 2.1–2.8_
@@ -148,7 +148,7 @@ The implementation follows the pipeline order: data models → ingestion → par
   - All `CRITICAL` issues must include `corrective_action` and `standard_reference`
   - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 8.1, 8.2_
 
-  - [ ]* 11.1 Write unit tests for geometric_constraints rules
+  - [x]* 11.1 Write unit tests for geometric_constraints rules
     - Test missing DRF, missing secondary datum, unconstrained feature, undefined datum reference
     - Place in `tests/unit/test_rule_geometric_constraints.py`
     - _Requirements: 3.1–3.7_
@@ -175,7 +175,7 @@ The implementation follows the pipeline order: data models → ingestion → par
     - Place in `tests/property/test_issue_severity.py`
     - **Validates: Requirements 4.5, 4.6**
 
-  - [ ]* 12.3 Write unit tests for tolerance_verification rules
+  - [x]* 12.3 Write unit tests for tolerance_verification rules
     - Test dimension with no tolerance and no general tolerance block, malformed FCF, tolerance stack-up scenario
     - Place in `tests/unit/test_rule_tolerance_verification.py`
     - _Requirements: 4.1–4.6_
