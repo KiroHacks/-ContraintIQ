@@ -1,0 +1,4 @@
+# file: C:\Users\vaish\Documents\kirohacks\-ContraintIQ\src\engineering_drawing_analyzer\rule_engine\manufacturing_readiness.py
+# hypothesis_version: 6.131.15
+
+['SURFACE_FINISH_RULE', 'TITLE_BLOCK_RULE']

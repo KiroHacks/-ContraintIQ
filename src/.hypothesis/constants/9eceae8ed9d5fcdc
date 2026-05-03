@@ -1,0 +1,4 @@
+# file: C:\Users\vaish\Documents\kirohacks\-ContraintIQ\src\engineering_drawing_analyzer\rule_engine\tolerance_verification.py
+# hypothesis_version: 6.131.15
+
+[', ', 'ANGULARITY', 'ASME Y14.5-2018 §2.1', 'CIRCULARITY', 'CIRCULAR_RUNOUT', 'COAXIALITY', 'CONCENTRICITY', 'CYLINDRICITY', 'FLATNESS', 'PARALLELISM', 'PERPENDICULARITY', 'POSITION', 'PROFILE_OF_A_LINE', 'PROFILE_OF_A_SURFACE', 'ROUNDNESS', 'STRAIGHTNESS', 'SYMMETRY', 'TOTAL_RUNOUT', 'TRUE_POSITION', '↗', '↗↗', '∠', '∥', '≡', '⊕', '⊥', '⌒', '⌓', '⌭', '⏤', '⏥', '○', '◎']

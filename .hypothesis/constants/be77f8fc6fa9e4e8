@@ -1,0 +1,4 @@
+# file: C:\Users\vaish\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\ezdxf\entities\attrib.py
+# hypothesis_version: 6.131.15
+
+[0.0, 1.0, 2.5, 280, 340, '0', 'ATTDEF', 'ATTRIB', 'AcDbAttribute', 'AcDbXrecord', 'AttDef', 'Attrib', 'BaseAttrib', 'Embedded MText', 'Standard', 'align_point', 'attachment_point', 'attribute_type', 'bg_fill', 'bg_fill_color', 'bg_fill_color_name', 'bg_fill_transparency', 'bg_fill_true_color', 'box_fill_scale', 'char_height', 'cloning', 'copy_attrib_as_text', 'defined_height', 'extrusion', 'field_length', 'flags', 'flow_direction', 'halign', 'handle', 'height', 'insert', 'line_spacing_factor', 'line_spacing_style', 'lock_position', 'mtext_flag', 'oblique', 'owner', 'prompt', 'really_locked', 'rect_height', 'rect_width', 'rotation', 'style', 'tag', 'text', 'text_direction', 'text_generation_flag', 'thickness', 'valign', 'version', 'width']

@@ -1,0 +1,4 @@
+# file: C:\Users\vaish\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\ezdxf\entities\leader.py
+# hypothesis_version: 6.131.15
+
+[210, 211, 212, 213, 340, '0', 'ACAD', 'AcDbLeader', 'DSTYLE', 'LEADER', 'Leader', 'Standard', 'annotation_handle', 'annotation_type', 'block_color', 'dimstyle', 'ezdxf', 'has_arrowhead', 'has_hookline', 'hookline_direction', 'horizontal_direction', 'normal_vector', 'path_type', 'text_height', 'text_width']

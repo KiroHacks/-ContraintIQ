@@ -1,0 +1,4 @@
+# file: C:\Users\vaish\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\ezdxf\entities\mline.py
+# hypothesis_version: 6.131.15
+
+[-0.5, 0.0, 1e-12, 1e-06, 0.5, 1.0, 210, 256, 340, '0', 'ACAD_MLINESTYLE', 'AcDbMline', 'AcDbMlineStyle', 'BYLAYER', 'MLINE', 'MLINESTYLE', 'MLine', 'MLineStyle', 'MLineStyleCollection', 'MLineStyleElement', 'MLineVertex', 'Standard', '__len__', 'color', 'count', 'description', 'end_angle', 'extrusion', 'ezdxf', 'fill_color', 'flags', 'justification', 'linetype', 'name', 'offset', 'scale_factor', 'start_angle', 'start_location', 'style_element_count', 'style_handle', 'style_name']

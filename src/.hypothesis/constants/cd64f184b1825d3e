@@ -1,0 +1,4 @@
+# file: C:\Users\vaish\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\ezdxf\audit.py
+# hypothesis_version: 6.131.15
+
+[100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 201, 202, 203, 204, 205, 206, 207, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 257, '0', 'ACAD_GROUP', 'ACAD_PLOTSTYLENAME', 'AuditError', 'Auditor', 'BlockCycleDetector', 'DICTIONARY', 'Entity is destroyed.', 'INSERT', 'No issues fixed.\n\n', 'Standard', 'TABLE', 'UNKNOWN', 'audit', 'byblock', 'bylayer', 'color', 'dimstyle', 'extrusion', 'handle', 'linetype', 'name', 'owner', 'style', 'transparency']

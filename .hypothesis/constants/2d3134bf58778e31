@@ -1,0 +1,4 @@
+# file: C:\Users\vaish\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\ezdxf\math\bspline.py
+# hypothesis_version: 6.131.15
+
+[-36.0, -1.0, 0.0, 0.5, 1.0, 2.0, 3.0, 12.0, 16.0, 360, '5-points', 'BSpline', 'Invalid position t', '_basis', '_clamped', '_control_points', 'average', 'chord', 'double_knots', 'fit_points_to_cad_cv', 'natural', 'open_uniform_bspline', 'required_fit_points', 'required_knot_values', 'uniform_knot_vector']

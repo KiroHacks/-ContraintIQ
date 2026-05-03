@@ -1,0 +1,4 @@
+# file: C:\Users\vaish\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\fontTools\pens\pointPen.py
+# hypothesis_version: 6.131.15
+
+[0.05, 'AbstractPointPen', 'GuessSmoothPointPen', 'Path already begun', 'Path already begun.', 'Path not begun', 'Path not begun.', 'PointToSegmentPen', 'ReverseFlipped', 'SegmentToPointPen', 'curve', 'identifier', 'keep_start', 'line', 'move', 'no', 'on_curve_first', 'qcurve']

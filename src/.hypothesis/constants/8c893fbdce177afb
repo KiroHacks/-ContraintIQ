@@ -1,0 +1,4 @@
+# file: C:\Users\vaish\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\ezdxf\entities\factory.py
+# hypothesis_version: 6.131.15
+
+['ENTITY_CLASSES', 'bind', 'cast', 'cls', 'create_db_entry', 'is_bound', 'load', 'new', 'process_sub_entities', 'register_entity', 'replace_entity']

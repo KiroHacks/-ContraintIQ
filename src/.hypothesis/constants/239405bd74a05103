@@ -1,0 +1,4 @@
+# file: C:\Users\vaish\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\ezdxf\explode.py
+# hypothesis_version: 6.131.15
+
+['ARC', 'ATTDEF', 'CIRCLE', 'DIMENSION', 'Dimension', 'INSERT', 'LWPOLYLINE', 'POINT', 'POLYLINE', 'TEXT', 'Text', 'attrib_to_text', 'attribute_type', 'center', 'elevation', 'end', 'end_angle', 'end_param', 'explode_entity', 'extrusion', 'ezdxf', 'field_length', 'flags', 'lock_position', 'major_axis', 'non copyable', 'non transformable', 'prompt', 'radius', 'ratio', 'remove_association', 'start', 'start_angle', 'start_param', 'tag', 'version', 'virtual_entities', 'xyb']

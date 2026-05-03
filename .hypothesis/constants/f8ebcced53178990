@@ -1,0 +1,4 @@
+# file: C:\Users\vaish\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\ezdxf\math\_ctypes.py
+# hypothesis_version: 6.131.15
+
+['AnyVec', 'Basis', 'Bezier3P', 'Bezier4P', 'Evaluator', 'Matrix44', 'NULLVEC', 'UVec', 'Vec2', 'Vec3', 'X_AXIS', 'Y_AXIS', 'Z_AXIS', 'arc_angle_span_deg', 'arc_angle_span_rad', 'distance', 'lerp']
