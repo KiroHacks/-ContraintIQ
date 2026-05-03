@@ -180,7 +180,7 @@ The implementation follows the pipeline order: data models → ingestion → par
     - Place in `tests/unit/test_rule_tolerance_verification.py`
     - _Requirements: 4.1–4.6_
 
-- [ ] 13. Checkpoint — Ensure all rule engine tests pass so far
+- [x] 13. Checkpoint — Ensure all rule engine tests pass so far
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 14. Implement `manufacturing_readiness` rule module
@@ -205,7 +205,7 @@ The implementation follows the pipeline order: data models → ingestion → par
     - Place in `tests/unit/test_rule_manufacturing_readiness.py`
     - _Requirements: 5.1–5.10_
 
-- [ ] 15. Implement `gdt_compliance` rule module
+- [x] 15. Implement `gdt_compliance` rule module
   - Implement rules in `src/engineering_drawing_analyzer/rule_engine/gdt_compliance.py`:
     - `GDTSymbolSetRule`: validate all `FeatureControlFrame.gdt_symbol` values against the ANSI/ASME Y14.5-2018 standard symbol set; non-standard → `WARNING`
     - `CompositeFCFRule`: verify composite feature control frames follow Y14.5 pattern-locating and feature-relating tolerance zone rules; violation → `CRITICAL`
@@ -251,10 +251,10 @@ The implementation follows the pipeline order: data models → ingestion → par
     - Place in `tests/property/test_systemic_patterns.py`
     - **Validates: Requirements 8.3**
 
-- [ ] 17. Checkpoint — Ensure all rule engine and wiring tests pass
+- [x] 17. Checkpoint — Ensure all rule engine and wiring tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 18. Implement the Report Generator
+- [x] 18. Implement the Report Generator
   - Implement `ReportGenerator.generate()` in `src/engineering_drawing_analyzer/report_generator.py`
   - **JSON format**: serialize `VerificationReport` to JSON using Python's `json` module; validate all required fields are present with correct types; `issue_counts` must match actual counts per severity
   - **HTML format**: render using Jinja2 template (`templates/report.html.j2`); self-contained single-file output with embedded CSS

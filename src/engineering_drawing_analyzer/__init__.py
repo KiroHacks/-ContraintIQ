@@ -1,6 +1,7 @@
 """Engineering Drawing Analyzer — automated verification of ANSI-standard engineering drawings."""
 
 from .ingestion import IngestionService
+from .report_generator import ReportGenerator
 from .serializer import GeometricModelSerializer, models_equivalent
 from .parsers import DrawingParser, DXFParser
 from .symbol_detector import DetectedSymbol, SymbolDetector
@@ -51,6 +52,7 @@ __all__ = [
     "GeometricModelSerializer",
     "models_equivalent",
     "IngestionService",
+    "ReportGenerator",
     "DrawingParser",
     "DXFParser",
     "DetectedSymbol",

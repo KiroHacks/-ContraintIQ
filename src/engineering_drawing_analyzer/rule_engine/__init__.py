@@ -21,6 +21,11 @@ from .tolerance_verification import (
     FCFCompletenessRule,
     ToleranceStackUpRule,
 )
+from .gdt_compliance import (
+    GDTSymbolSetRule,
+    CompositeFCFRule,
+    DatumFeatureSymbolPlacementRule,
+)
 
 __all__ = [
     "RuleEngine",
@@ -35,4 +40,7 @@ __all__ = [
     "DimensionToleranceRule",
     "FCFCompletenessRule",
     "ToleranceStackUpRule",
+    "GDTSymbolSetRule",
+    "CompositeFCFRule",
+    "DatumFeatureSymbolPlacementRule",
 ]
