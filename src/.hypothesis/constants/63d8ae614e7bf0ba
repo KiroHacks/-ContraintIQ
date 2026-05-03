@@ -1,0 +1,4 @@
+# file: C:\Users\vaish\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\ezdxf\entities\sun.py
+# hypothesis_version: 6.131.15
+
+[256, 280, 290, 291, 292, 293, 294, 340, 341, 342, 343, 421, 43200, 2456922, 16777215, 'AcDbSun', 'SUN', 'Sun', 'color', 'column_count', 'dates_from_calender', 'description', 'hours_count', 'intensity', 'julian_day', 'label_viewports', 'lock_viewports', 'name', 'output_type', 'range_of_dates', 'row_count', 'shade_plot_type', 'shadow_map_size', 'shadow_softness', 'shadow_type', 'shadows', 'sheet_set_name', 'sheet_subset_name', 'spacing', 'status', 'text_style_handle', 'time', 'true_color', 'use_subset', 'version', 'view_handle', 'viewports_per_page', 'visual_style_handle']

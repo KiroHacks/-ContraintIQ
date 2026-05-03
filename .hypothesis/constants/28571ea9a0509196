@@ -1,0 +1,4 @@
+# file: C:\Users\vaish\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\ezdxf\lldxf\encoding.py
+# hypothesis_version: 6.131.15
+
+[255, 56448, 56575, 65535, '(\\\\U\\+[A-F0-9]{4})', '1', '2', '3', '4', '5', '\\M+', '\\U+', '\\U+%04x', '\\U+%08x', '\\x%02x', 'cp1391', 'cp932', 'cp936', 'cp949', 'cp950', 'dxfreplace', 'surrogateescape', 'utf8']

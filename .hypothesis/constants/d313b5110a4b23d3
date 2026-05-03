@@ -1,0 +1,4 @@
+# file: C:\Users\vaish\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\ezdxf\entities\dxfns.py
+# hypothesis_version: 6.131.15
+
+[100, 102, 105, 284, 330, 347, 348, 370, 380, 390, 420, 430, 440, '*', '<?>', 'AcDbEntity', 'DIMSTYLE', 'DXFAttr', 'DXFNamespace', 'Invalid tags.', 'SubclassProcessor', '_entity', 'color', 'color_name', 'dimstyle', 'ezdxf', 'handle', 'invisible', 'layer', 'linetype', 'lineweight', 'ltscale', 'material_handle', 'on_dimstyle_change', 'on_layer_change', 'on_linetype_change', 'on_style_change', 'owner', 'paperspace', 'plotstyle_enum', 'plotstyle_handle', 'shadow_mode', 'style', 'transparency', 'true_color', 'visualstyle_handle']

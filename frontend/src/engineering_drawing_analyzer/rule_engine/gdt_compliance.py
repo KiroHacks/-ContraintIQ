@@ -1,5 +1,19 @@
 """GD&T compliance verification rules.
 
+<<<<<<< HEAD
+This module implements the three rules that validate GD&T annotations against
+the ANSI/ASME Y14.5-2018 standard:
+
+* ``GDTSymbolSetRule``                — validate all GD&T symbols are from the
+                                        standard symbol set.
+* ``CompositeFCFRule``                — verify composite feature control frames
+                                        follow Y14.5 rules.
+* ``DatumFeatureSymbolPlacementRule`` — verify datum feature symbols are applied
+                                        to physical features, not centerlines.
+
+These are stub implementations that return empty issue lists.  Task 15 will
+implement the full logic.
+=======
 This module implements three rules that validate GD&T annotations against the
 ANSI/ASME Y14.5-2018 standard:
 
@@ -15,10 +29,22 @@ ANSI/ASME Y14.5-2018 standard:
 
 All ``CRITICAL`` issues include a non-empty ``corrective_action`` and a
 ``standard_reference`` pointing to the applicable ASME Y14.5-2018 clause.
+>>>>>>> e907540421d1286171f4df874a00057add8f4be7
 """
 
 from __future__ import annotations
 
+<<<<<<< HEAD
+from ..models import GeometricModel, Issue
+
+
+class GDTSymbolSetRule:
+    """Validate all FeatureControlFrame.gdt_symbol values against the Y14.5 set.
+
+    Non-standard symbol → WARNING.
+
+    Stub — returns empty list until task 15 implements full logic.
+=======
 import uuid
 
 from ..models import (
@@ -156,11 +182,23 @@ class GDTSymbolSetRule:
 
     Severity: ``WARNING``
     Standard: ASME Y14.5-2018 §3 (Symbology)
+>>>>>>> e907540421d1286171f4df874a00057add8f4be7
     """
 
     rule_id: str = "GDT_SYMBOL_SET_RULE"
 
     def check(self, model: GeometricModel) -> list[Issue]:
+<<<<<<< HEAD
+        return []
+
+
+class CompositeFCFRule:
+    """Verify composite feature control frames follow Y14.5 rules.
+
+    Violation → CRITICAL.
+
+    Stub — returns empty list until task 15 implements full logic.
+=======
         """Return one ``WARNING`` issue for each FCF with a non-standard GD&T symbol."""
         issues: list[Issue] = []
 
@@ -220,11 +258,23 @@ class CompositeFCFRule:
 
     Severity: ``CRITICAL``
     Standard: ASME Y14.5-2018 §11.10 (Composite Tolerancing)
+>>>>>>> e907540421d1286171f4df874a00057add8f4be7
     """
 
     rule_id: str = "COMPOSITE_FCF_RULE"
 
     def check(self, model: GeometricModel) -> list[Issue]:
+<<<<<<< HEAD
+        return []
+
+
+class DatumFeatureSymbolPlacementRule:
+    """Verify datum feature symbols are applied to physical features.
+
+    Incorrect placement → WARNING.
+
+    Stub — returns empty list until task 15 implements full logic.
+=======
         """Return ``CRITICAL`` issues for malformed composite feature control frames."""
         issues: list[Issue] = []
 
@@ -296,11 +346,15 @@ class DatumFeatureSymbolPlacementRule:
 
     Severity: ``WARNING``
     Standard: ASME Y14.5-2018 §4.5 (Datum Feature Symbols)
+>>>>>>> e907540421d1286171f4df874a00057add8f4be7
     """
 
     rule_id: str = "DATUM_FEATURE_SYMBOL_PLACEMENT_RULE"
 
     def check(self, model: GeometricModel) -> list[Issue]:
+<<<<<<< HEAD
+        return []
+=======
         """Return ``WARNING`` issues for incorrectly placed datum feature symbols."""
         issues: list[Issue] = []
 
@@ -356,3 +410,4 @@ class DatumFeatureSymbolPlacementRule:
                     )
 
         return issues
+>>>>>>> e907540421d1286171f4df874a00057add8f4be7

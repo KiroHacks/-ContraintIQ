@@ -225,7 +225,7 @@ The implementation follows the pipeline order: data models → ingestion → par
     - Place in `tests/unit/test_rule_gdt_compliance.py`
     - _Requirements: 7.1–7.6_
 
-- [ ] 16. Implement issue list completeness and corrective action properties
+- [x] 16. Implement issue list completeness and corrective action properties
   - Wire all five rule modules into `RuleEngine` registration in `src/engineering_drawing_analyzer/rule_engine/__init__.py`
   - Implement systemic pattern detection in `VerificationReport` assembly: when more than three `Issue` objects share the same `issue_type`, add a `systemic_patterns` entry referencing that type and the relevant standard
   - Implement `overall_status` logic: `"Pass"` if and only if `len(issues) == 0`

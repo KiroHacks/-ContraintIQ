@@ -1,6 +1,7 @@
 """Manufacturing readiness verification rules.
 
 This module implements the five rules that check whether a drawing contains
+<<<<<<< HEAD:frontend/src/engineering_drawing_analyzer/rule_engine/manufacturing_readiness.py
 all information a machinist needs to fabricate the part without requesting
 clarification:
 
@@ -19,10 +20,25 @@ clarification:
 
 All ``CRITICAL`` issues include a non-empty ``corrective_action`` and a
 ``standard_reference`` pointing to the applicable ASME Y14.5-2018 clause.
+=======
+all information a machinist needs to fabricate the part:
+
+* ``TitleBlockRule``          — verify the title block has all required fields.
+* ``SurfaceFinishRule``       — verify functional surfaces have finish callouts.
+* ``HoleSpecificationRule``   — verify holes specify diameter, depth, tolerance,
+                                and thread spec.
+* ``ViewSufficiencyRule``     — verify sufficient orthographic views exist.
+* ``NoteContradictionRule``   — detect contradictions between notes or between
+                                notes and dimensions.
+
+These are stub implementations that return empty issue lists.  Task 14 will
+implement the full logic.
+>>>>>>> 1b37df4b6b3322109ca88ea01d08d609f959330f:src/engineering_drawing_analyzer/rule_engine/manufacturing_readiness.py
 """
 
 from __future__ import annotations
 
+<<<<<<< HEAD:frontend/src/engineering_drawing_analyzer/rule_engine/manufacturing_readiness.py
 import re
 import uuid
 from typing import Optional
@@ -109,21 +125,32 @@ def _dim_has_finish_keyword(dim_unit: str) -> bool:
 # ---------------------------------------------------------------------------
 # TitleBlockRule
 # ---------------------------------------------------------------------------
+=======
+from ..models import GeometricModel, Issue
+>>>>>>> 1b37df4b6b3322109ca88ea01d08d609f959330f:src/engineering_drawing_analyzer/rule_engine/manufacturing_readiness.py
 
 
 class TitleBlockRule:
     """Verify that the title block contains all required fields.
 
+<<<<<<< HEAD:frontend/src/engineering_drawing_analyzer/rule_engine/manufacturing_readiness.py
     Required fields: ``part_number``, ``revision``, ``material``, ``scale``,
     ``units``.  One ``CRITICAL`` issue is produced for each missing field —
     no more, no fewer.
 
     Severity: ``CRITICAL``
     Standard: ASME Y14.100-2017 §4.1 (Title Block Requirements)
+=======
+    Required fields: part_number, revision, material, scale, units.
+    One CRITICAL issue per missing field.
+
+    Stub — returns empty list until task 14 implements full logic.
+>>>>>>> 1b37df4b6b3322109ca88ea01d08d609f959330f:src/engineering_drawing_analyzer/rule_engine/manufacturing_readiness.py
     """
 
     rule_id: str = "TITLE_BLOCK_RULE"
 
+<<<<<<< HEAD:frontend/src/engineering_drawing_analyzer/rule_engine/manufacturing_readiness.py
     # Ordered list of (field_name, human_label) pairs.
     _REQUIRED_FIELDS: list[tuple[str, str]] = [
         ("part_number", "Part Number"),
@@ -179,11 +206,16 @@ class TitleBlockRule:
 # ---------------------------------------------------------------------------
 # SurfaceFinishRule
 # ---------------------------------------------------------------------------
+=======
+    def check(self, model: GeometricModel) -> list[Issue]:
+        return []
+>>>>>>> 1b37df4b6b3322109ca88ea01d08d609f959330f:src/engineering_drawing_analyzer/rule_engine/manufacturing_readiness.py
 
 
 class SurfaceFinishRule:
     """Verify that functional surfaces have surface finish callouts.
 
+<<<<<<< HEAD:frontend/src/engineering_drawing_analyzer/rule_engine/manufacturing_readiness.py
     A "functional surface" is identified by ``feature_type == "SURFACE"``.
     A surface finish callout is considered present when:
 
@@ -195,11 +227,17 @@ class SurfaceFinishRule:
 
     Severity: ``WARNING``
     Standard: ASME Y14.36-2018 §5 (Surface Texture Symbols)
+=======
+    Missing callout → WARNING.
+
+    Stub — returns empty list until task 14 implements full logic.
+>>>>>>> 1b37df4b6b3322109ca88ea01d08d609f959330f:src/engineering_drawing_analyzer/rule_engine/manufacturing_readiness.py
     """
 
     rule_id: str = "SURFACE_FINISH_RULE"
 
     def check(self, model: GeometricModel) -> list[Issue]:
+<<<<<<< HEAD:frontend/src/engineering_drawing_analyzer/rule_engine/manufacturing_readiness.py
         """Return one ``WARNING`` issue for each functional surface without a finish callout."""
         issues: list[Issue] = []
 
@@ -265,10 +303,22 @@ class HoleSpecificationRule:
 
     Severity: ``CRITICAL``
     Standard: ASME Y14.5-2018 §7.6 (Hole Callouts), ASME B1.1 (Thread Standards)
+=======
+        return []
+
+
+class HoleSpecificationRule:
+    """Verify that holes specify diameter, depth (if blind), tolerance, and thread spec.
+
+    Missing specification → CRITICAL.
+
+    Stub — returns empty list until task 14 implements full logic.
+>>>>>>> 1b37df4b6b3322109ca88ea01d08d609f959330f:src/engineering_drawing_analyzer/rule_engine/manufacturing_readiness.py
     """
 
     rule_id: str = "HOLE_SPECIFICATION_RULE"
 
+<<<<<<< HEAD:frontend/src/engineering_drawing_analyzer/rule_engine/manufacturing_readiness.py
     # Keywords that indicate a thread specification in a note.
     _THREAD_KEYWORDS: frozenset[str] = frozenset(
         {
@@ -463,11 +513,24 @@ class ViewSufficiencyRule:
 
     Severity: ``CRITICAL``
     Standard: ASME Y14.3-2012 §4 (Orthographic Views)
+=======
+    def check(self, model: GeometricModel) -> list[Issue]:
+        return []
+
+
+class ViewSufficiencyRule:
+    """Verify that the drawing has sufficient orthographic views.
+
+    Insufficient views → CRITICAL.
+
+    Stub — returns empty list until task 14 implements full logic.
+>>>>>>> 1b37df4b6b3322109ca88ea01d08d609f959330f:src/engineering_drawing_analyzer/rule_engine/manufacturing_readiness.py
     """
 
     rule_id: str = "VIEW_SUFFICIENCY_RULE"
 
     def check(self, model: GeometricModel) -> list[Issue]:
+<<<<<<< HEAD:frontend/src/engineering_drawing_analyzer/rule_engine/manufacturing_readiness.py
         """Return ``CRITICAL`` issues for features not represented in any view."""
         issues: list[Issue] = []
 
@@ -534,11 +597,15 @@ class ViewSufficiencyRule:
 # ---------------------------------------------------------------------------
 # NoteContradictionRule
 # ---------------------------------------------------------------------------
+=======
+        return []
+>>>>>>> 1b37df4b6b3322109ca88ea01d08d609f959330f:src/engineering_drawing_analyzer/rule_engine/manufacturing_readiness.py
 
 
 class NoteContradictionRule:
     """Detect contradictions between notes or between notes and dimensions.
 
+<<<<<<< HEAD:frontend/src/engineering_drawing_analyzer/rule_engine/manufacturing_readiness.py
     Two types of contradictions are detected:
 
     1. **Note vs. dimension**: A note contains a numeric value that contradicts
@@ -553,10 +620,16 @@ class NoteContradictionRule:
 
     Severity: ``CRITICAL``
     Standard: ASME Y14.5-2018 §1.4 (Drawing Requirements)
+=======
+    Contradiction → CRITICAL.
+
+    Stub — returns empty list until task 14 implements full logic.
+>>>>>>> 1b37df4b6b3322109ca88ea01d08d609f959330f:src/engineering_drawing_analyzer/rule_engine/manufacturing_readiness.py
     """
 
     rule_id: str = "NOTE_CONTRADICTION_RULE"
 
+<<<<<<< HEAD:frontend/src/engineering_drawing_analyzer/rule_engine/manufacturing_readiness.py
     # Tolerance for numeric comparison (to avoid floating-point noise).
     _NUMERIC_TOLERANCE: float = 1e-6
 
@@ -704,3 +777,7 @@ class NoteContradictionRule:
             )
 
         return issues
+=======
+    def check(self, model: GeometricModel) -> list[Issue]:
+        return []
+>>>>>>> 1b37df4b6b3322109ca88ea01d08d609f959330f:src/engineering_drawing_analyzer/rule_engine/manufacturing_readiness.py

@@ -1,0 +1,4 @@
+# file: C:\Users\vaish\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\ezdxf\math\eulerspiral.py
+# hypothesis_version: 6.131.15
+
+[0.0, 1.0, 2.0, 6.0, 40.0, 336.0, 3456.0, 42240.0, 599040.0, 9676800.0, 175472640.0, 3530096640.0, 'EulerSpiral', 'requires count > 2', 'uniform']

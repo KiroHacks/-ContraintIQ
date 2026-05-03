@@ -1,0 +1,4 @@
+# file: C:\Users\vaish\Documents\kirohacks\-ContraintIQ\src\engineering_drawing_analyzer\serializer.py
+# hypothesis_version: 6.131.15
+
+['1.0', 'coordinates', 'datum_references', 'datums', 'dimensions', 'feature_id', 'feature_type', 'features', 'gdt_symbol', 'general_tolerance', 'id', 'is_angular', 'is_blind_hole', 'is_general', 'is_threaded', 'label', 'location', 'lower', 'material', 'material_condition', 'ml_confidence', 'ml_symbol_type', 'name', 'notes', 'part_number', 'revision', 'scale', 'schema_version', 'source_format', 'title_block', 'tolerance', 'tolerance_value', 'unit', 'units', 'upper', 'value', 'view_name', 'views']

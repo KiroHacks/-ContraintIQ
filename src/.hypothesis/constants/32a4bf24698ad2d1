@@ -1,0 +1,4 @@
+# file: C:\Users\vaish\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\ezdxf\entities\hatch.py
+# hypothesis_version: 6.131.15
+
+[210, 'AcDbHatch', 'HATCH', 'Hatch', 'SOLID', 'associative', 'elevation', 'extrusion', 'hatch_style', 'n_seed_points', 'pattern_angle', 'pattern_double', 'pattern_name', 'pattern_scale', 'pattern_type', 'pixel_size', 'solid_fill']

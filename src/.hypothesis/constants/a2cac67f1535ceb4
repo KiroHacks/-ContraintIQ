@@ -1,0 +1,4 @@
+# file: C:\Users\vaish\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\ezdxf\entities\mtext.py
+# hypothesis_version: 6.131.15
+
+[0.0, 1e-12, 1e-06, 0.25, 1.5, 2.5, 4.0, 101, 210, 250, 421, 431, 441, 1000, 1005, 1040, 1070, 'AC1021', 'ACAD', 'ACAD_MTEXT_COLUMNS', 'AcDbMText', 'ColumnType', 'Embedded Object', 'MTEXT', 'MText', 'MTextColumns', 'Standard', '_get_text', '_set_text', 'acdb_mtext', 'attachment_point', 'bg_fill', 'bg_fill_color', 'bg_fill_color_name', 'bg_fill_transparency', 'bg_fill_true_color', 'box_fill_scale', 'canvas', 'char_height', 'defined_height', 'export_mtext_content', 'extrusion', 'ezdxf', 'flow_direction', 'handle', 'insert', 'line_spacing_factor', 'line_spacing_style', 'owner', 'rect_height', 'rect_width', 'rotation', 'style', 'text', 'text_direction', 'width']

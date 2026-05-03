@@ -1,0 +1,4 @@
+# file: C:\Users\vaish\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\ezdxf\math\construct2d.py
+# hypothesis_version: 6.131.15
+
+[-1.0, 0.0, 1e-10, 1e-06, 0.5, 1.0, 2.0, 3.0, 60.0, 3600.0, 'Not a line.', 'TOLERANCE', 'area', 'circle_radius_3p', 'closest_point', 'convex_hull_2d', 'decdeg2dms', 'ellipse_param_span', 'enclosing_angles', 'is_convex_polygon_2d', 'is_point_on_line_2d', 'np_area', 'sign']

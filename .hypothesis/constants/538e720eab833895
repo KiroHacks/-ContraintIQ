@@ -1,0 +1,4 @@
+# file: C:\Users\vaish\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\ezdxf\entities\dxfgfx.py
+# hypothesis_version: 6.131.15
+
+[0.0, 1.0, 160, 256, 284, 347, 348, 370, 380, 390, 420, 430, 440, 1000, 1001, 1002, '0', 'AcDbEntity', 'BYLAYER', 'DXFGFX', 'DXFGraphic', 'PE_URL', 'SEQEND', 'SeqEnd', 'acdb_entity', 'add_entity', 'color', 'color_name', 'elevation', 'elevation_to_z_axis', 'extrusion', 'get_font_name', 'invisible', 'is_graphic_entity', 'layer', 'linetype', 'lineweight', 'ltscale', 'material_handle', 'paperspace', 'plotstyle_enum', 'plotstyle_handle', 'replace_entity', 'shadow_mode', 'style', 'transparency', 'true_color', 'visualstyle_handle', '{', '}']

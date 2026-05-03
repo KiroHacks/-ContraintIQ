@@ -1,0 +1,4 @@
+# file: C:\Users\vaish\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\fontTools\misc\loggingTools.py
+# hypothesis_version: 6.131.15
+
+[0.0, '%', '%(message)s', '%(time)', '%.3f', '%r is deprecated; %s', '*', ', ', '.', 'DEBUG', 'INFO', '__main__', '_log', 'a', 'datefmt', 'filemode', 'filename', 'filters', 'fontTools', 'format', 'handlers', 'level', 'logger', 'msg', 'propagate', 'root', "run '%s'", 'stream', 'style', 'time']
