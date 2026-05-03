@@ -1,4 +1,0 @@
-# file: /Users/yunwaddyoo/Desktop/Projects/-ContraintIQ/frontend/src/engineering_drawing_analyzer/rule_engine/gdt_compliance.py
-# hypothesis_version: 6.131.15
-
-['ANGULARITY', 'ASME Y14.5-2018 §3', 'ASME Y14.5-2018 §4.5', 'AXIS', 'CENTERLINE', 'CENTER_AXIS', 'CENTRELINE', 'CENTRE_AXIS', 'CIRCULAR RUNOUT', 'CIRCULARITY', 'CIRCULAR_RUNOUT', 'COAXIALITY', 'COMPOSITE_FCF_RULE', 'CONCENTRICITY', 'CYLINDRICITY', 'FLATNESS', 'GDT_SYMBOL_SET_RULE', 'PARALLELISM', 'PERPENDICULARITY', 'POSITION', 'PROFILE OF A LINE', 'PROFILE OF A SURFACE', 'PROFILE_OF_A_LINE', 'PROFILE_OF_A_SURFACE', 'ROUNDNESS', 'STRAIGHTNESS', 'SYMMETRY', 'TOTAL RUNOUT', 'TOTAL_RUNOUT', 'TRUE POSITION', 'TRUE_POSITION', '↗', '↗↗', '⇗', '∠', '∥', '≡', '⊕', '⊥', '⌒', '⌓', '⌭', '⏤', '⏥', '○', '◎']

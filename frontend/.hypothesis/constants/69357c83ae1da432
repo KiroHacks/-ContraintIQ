@@ -1,4 +1,0 @@
-# file: /Users/yunwaddyoo/Desktop/Projects/-ContraintIQ/frontend/src/engineering_drawing_analyzer/__init__.py
-# hypothesis_version: 6.131.15
-
-['AnalysisPipeline', 'DXFParser', 'Datum', 'DetectedSymbol', 'Dimension', 'DrawingFormat', 'DrawingParser', 'Feature', 'FeatureControlFrame', 'FileTooLargeError', 'GeometricModel', 'IngestionService', 'Issue', 'LocationReference', 'ParseError', 'Point2D', 'ReportFormat', 'ReportGenerator', 'Severity', 'SymbolDetector', 'TitleBlock', 'Tolerance', 'VerificationReport', 'View', 'models_equivalent']

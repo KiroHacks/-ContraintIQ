@@ -1,4 +1,0 @@
-# file: /Users/yunwaddyoo/Desktop/Projects/-ContraintIQ/frontend/src/engineering_drawing_analyzer/rule_engine/manufacturing_readiness.py
-# hypothesis_version: 6.131.15
-
-[1e-06, 'ACME', 'ASME Y14.3-2012 §4', 'ASME Y14.36-2018 §5', 'ASME Y14.5-2018 §1.4', 'ASME Y14.5-2018 §7.6', 'BSP', 'BSPT', 'BURNISHED', 'BUTTRESS', 'DEEP', 'DEPTH', 'DP', 'DRAWING', 'FINISH', 'FRACTIONAL', 'GROUND', 'HOLE', 'HOLE_MISSING_DEPTH', 'HONED', 'IMPERIAL', 'INCH', 'INCHES', 'LAPPED', 'M', 'MACHINED', 'METRIC', 'MICRO-FINISH', 'MICROFINISH', 'MILLIMETER', 'MILLIMETRE', 'MM', 'Material', 'NPT', 'NPTF', 'POLISHED', 'Part Number', 'RA', 'ROUGHNESS', 'RQ', 'RZ', 'Revision', 'SAE', 'SURFACE', 'SURFACE FINISH', 'SURFACE_FINISH', 'SURFACE_FINISH_RULE', 'Scale', 'TAP', 'TAPPED', 'TEXTURE', 'THREAD', 'THREADED', 'THROUGH', 'THRU', 'TITLE_BLOCK_RULE', 'UNC', 'UNEF', 'UNF', 'UNKNOWN', 'Units', 'WAVINESS', '\\b', 'material', 'part_number', 'revision', 'scale', 'units']

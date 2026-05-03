@@ -1,85 +1,21 @@
-// ─── Mock Issue Data ──────────────────────────────────────────────────────────
-const MOCK_ISSUES = [
-  {
-    id: 1,
-    title: "Missing Hole-to-Edge Dimension",
-    severity: "high",
-    category: "Missing Dimension",
-    location: { x: "28%", y: "34%" },
-    description:
-      "The left mounting hole (Ø0.375) has no dimension specifying its distance from the left or bottom edge. Manufacturers cannot locate this feature without assuming a reference.",
-    fix: "Add a horizontal dimension from the left edge to the hole centerline, and a vertical dimension from the bottom edge. Reference datum A as the primary locating surface.",
-    costImpact: "High — likely RFI or incorrect placement",
-    rfiRisk: "Very Likely",
-  },
-  {
-    id: 2,
-    title: "Ambiguous GD&T Datum Reference",
-    severity: "high",
-    category: "GD&T Issue",
-    location: { x: "28%", y: "46%" },
-    description:
-      "The position callout ⌀0.005 references datum A, but datum A is not defined anywhere on the drawing. Without a datum feature symbol, the tolerance zone has no anchor.",
-    fix: "Add a datum feature symbol 'A' to the primary locating surface (likely the bottom face). Ensure the datum reference frame is fully defined per ASME Y14.5-2018 §4.",
-    costImpact: "High — tolerance cannot be inspected",
-    rfiRisk: "Certain",
-  },
-  {
-    id: 3,
-    title: "Slot Width Tolerance Not Specified",
-    severity: "medium",
-    category: "Missing Tolerance",
-    location: { x: "44%", y: "62%" },
-    description:
-      "The center slot shows a nominal width of 0.750 but carries no tolerance. The title block general tolerance (±0.010) may be insufficient for a mating slot feature.",
-    fix: "Add an explicit bilateral tolerance to the slot width (e.g., 0.750 ±0.005). If this is a clearance fit, specify the fit class per ANSI B4.1.",
-    costImpact: "Medium — potential fit issue at assembly",
-    rfiRisk: "Likely",
-  },
-  {
-    id: 4,
-    title: "Surface Finish Not Called Out",
-    severity: "medium",
-    category: "Manufacturability",
-    location: { x: "72%", y: "34%" },
-    description:
-      "The right mounting hole bore has no surface finish symbol. For a precision bore intended to accept a shoulder bolt, Ra should be specified to ensure proper seating.",
-    fix: "Add a surface finish callout (e.g., Ra 1.6 µm / 63 µin) to the bore surface. Use the ASME Y14.36 surface texture symbol.",
-    costImpact: "Medium — may require rework or re-inspection",
-    rfiRisk: "Possible",
-  },
-  {
-    id: 5,
-    title: "Overall Height Dimension Missing",
-    severity: "medium",
-    category: "Missing Dimension",
-    location: { x: "82%", y: "50%" },
-    description:
-      "The part height (vertical extent) is not dimensioned in the front view. Only the width (4.250) is shown. A manufacturer must infer height from the scale or a secondary view.",
-    fix: "Add a vertical dimension to the front view showing the overall height of the part. Verify it matches the 3D model nominal.",
-    costImpact: "Medium — part may be quoted at wrong stock size",
-    rfiRisk: "Likely",
-  },
-  {
-    id: 6,
-    title: "No Material Callout on Drawing Field",
-    severity: "low",
-    category: "Documentation",
-    location: { x: "50%", y: "88%" },
-    description:
-      "Material is listed in the title block as '6061-T6 ALUM' but there is no note specifying the applicable material specification (e.g., AMS 2770 or ASTM B209).",
-    fix: "Add a general note: 'MATERIAL: 6061-T6 PER AMS 2770 OR ASTM B209.' This prevents substitution with non-compliant alloy.",
-    costImpact: "Low — documentation gap only",
-    rfiRisk: "Unlikely",
-  },
-];
+// ─── Backend URL ─────────────────────────────────────────────────────────────
+// Resolved from config.js (window.CONSTRAINT_IQ_CONFIG.backendUrl).
+// Falls back to localhost for local development.
+function getBackendUrl() {
+  return (
+    (window.CONSTRAINT_IQ_CONFIG && window.CONSTRAINT_IQ_CONFIG.backendUrl) ||
+    "http://localhost:8000"
+  );
+}
 
 // ─── State ────────────────────────────────────────────────────────────────────
-let activeIssueId    = null;
-let analysisRun      = false;
-let uploadedFileName = null;
-let activePage       = "landing"; // "landing" | "dashboard"
+let activeIssueId         = null;
+let analysisRun           = false;
+let uploadedFileName      = null;
+let uploadedFile          = null;   // the actual File object for API upload
+let activePage            = "landing"; // "landing" | "dashboard"
 let activeProjectFilename = null;
+let lastReport            = null;   // last JSON report from the API
 
 // ─── DOM refs ─────────────────────────────────────────────────────────────────
 const fileInput          = document.getElementById("fileInput");
@@ -115,10 +51,8 @@ const partName           = document.getElementById("partName");
 const releaseStatus      = document.getElementById("releaseStatus");
 const releaseStatusBadge = document.getElementById("releaseStatusBadge");
 
-// Landing page project list
 const projectsList       = document.getElementById("projectsList");
 const projectsEmpty      = document.getElementById("projectsEmpty");
-// Dashboard sidebar project list
 const dashProjectList    = document.getElementById("dashProjectList");
 const dashProjectEmpty   = document.getElementById("dashProjectEmpty");
 
@@ -136,7 +70,7 @@ function showDashboard() {
   activePage = "dashboard";
   landingPage.style.display = "none";
   dashboardPage.style.display = "block";
-  backBtn.style.display = "none";   // hide "Landing" button on dashboard
+  backBtn.style.display = "none";
   navDashBtn.classList.add("nav-active");
   renderDashSidebar();
 }
@@ -160,34 +94,40 @@ fileInput.addEventListener("change", (e) => {
   const file = e.target.files[0];
   if (!file) return;
   uploadedFileName = file.name;
+  uploadedFile = file;
   saveProject(file.name);
   fileInput.value = "";
-  // Always route to dashboard and open the file
   showDashboard();
-  openProjectInWorkspace(file.name);
+  openProjectInWorkspace(file.name, file);
 });
 
 analyzeBtn.addEventListener("click", () => {
-  if (!analysisRun) runAnalysis();
+  if (!analysisRun && uploadedFile) runAnalysis();
+  else if (!uploadedFile) triggerUpload();
 });
 
 // ─── Open a project in the workspace ─────────────────────────────────────────
-function openProjectInWorkspace(filename) {
+function openProjectInWorkspace(filename, file) {
   activeProjectFilename = filename;
+  uploadedFile = file || null;
   viewerFilename.textContent = filename;
   partName.textContent = filename.replace(/\.[^.]+$/, "").toUpperCase().replace(/[-_]/g, " ");
 
-  // Show workspace, hide empty state
   dashEmptyState.style.display = "none";
   workspace.style.display = "grid";
 
   analysisRun = false;
+  lastReport = null;
   clearResults();
 
-  // Highlight active item in sidebar
   document.querySelectorAll(".dash-project-item").forEach((el) => {
     el.classList.toggle("active", el.dataset.filename === filename);
   });
+
+  // Auto-run analysis if we have the file object
+  if (file) {
+    runAnalysis();
+  }
 }
 
 // ─── localStorage Projects ────────────────────────────────────────────────────
@@ -196,7 +136,6 @@ function saveProject(filename) {
   const existing = projects.findIndex((p) => p.filename === filename);
   const entry = { filename, timestamp: Date.now(), status: "pending" };
   if (existing >= 0) {
-    // preserve existing status when re-uploading same file
     entry.status = projects[existing].status || "pending";
     projects[existing] = entry;
   } else {
@@ -208,9 +147,9 @@ function saveProject(filename) {
 function deleteProject(filename) {
   const projects = getProjects().filter((p) => p.filename !== filename);
   localStorage.setItem("ciq_projects", JSON.stringify(projects));
-  // If the deleted project is currently open, reset workspace
   if (activeProjectFilename === filename) {
     activeProjectFilename = null;
+    uploadedFile = null;
     workspace.style.display = "none";
     dashEmptyState.style.display = "flex";
     clearResults();
@@ -231,13 +170,12 @@ function getProjects() {
   catch { return []; }
 }
 
-// Returns { label, cls } for a project status value
 function statusMeta(status) {
   switch (status) {
-    case "ready":    return { label: "Ready for Release",     cls: "proj-status-ready" };
-    case "review":   return { label: "Needs Review",          cls: "proj-status-review" };
-    case "blocked":  return { label: "Blocked",               cls: "proj-status-blocked" };
-    default:         return { label: "Not Ready for Release", cls: "proj-status-not-ready" };
+    case "ready":   return { label: "Ready for Release",     cls: "proj-status-ready" };
+    case "review":  return { label: "Needs Review",          cls: "proj-status-review" };
+    case "blocked": return { label: "Blocked",               cls: "proj-status-blocked" };
+    default:        return { label: "Not Ready for Release", cls: "proj-status-not-ready" };
   }
 }
 
@@ -281,7 +219,7 @@ function renderLandingProjects() {
       <span class="project-item-arrow">›</span>`;
     item.addEventListener("click", () => {
       showDashboard();
-      openProjectInWorkspace(p.filename);
+      openProjectInWorkspace(p.filename, null);
     });
     projectsList.appendChild(item);
   });
@@ -332,15 +270,13 @@ function renderDashSidebar() {
         </button>
       </div>`;
 
-    // Click on the body area opens the project
     item.querySelector(".dash-project-item-body").addEventListener("click", () => {
-      openProjectInWorkspace(p.filename);
+      openProjectInWorkspace(p.filename, null);
     });
     item.querySelector("svg:first-child").addEventListener("click", () => {
-      openProjectInWorkspace(p.filename);
+      openProjectInWorkspace(p.filename, null);
     });
 
-    // Status dropdown
     item.querySelector(".proj-status-select").addEventListener("change", (e) => {
       e.stopPropagation();
       setProjectStatus(p.filename, e.target.value);
@@ -348,7 +284,6 @@ function renderDashSidebar() {
       renderLandingProjects();
     });
 
-    // Delete button
     item.querySelector(".dash-delete-btn").addEventListener("click", (e) => {
       e.stopPropagation();
       if (confirm(`Delete "${p.filename}"?`)) {
@@ -362,9 +297,14 @@ function renderDashSidebar() {
   });
 }
 
-// ─── Analysis simulation ──────────────────────────────────────────────────────
-function runAnalysis() {
+// ─── Analysis — calls the real backend API ────────────────────────────────────
+async function runAnalysis() {
   if (analysisRun) return;
+  if (!uploadedFile) {
+    showError("No file selected. Please upload a drawing first.");
+    return;
+  }
+
   loadingOverlay.style.display = "flex";
 
   const steps = [
@@ -375,29 +315,70 @@ function runAnalysis() {
     document.getElementById("step5"),
   ];
 
-  // Reset steps
   steps.forEach((s) => { s.className = "loading-step"; });
   steps[0].classList.add("active");
 
+  // Advance the loading steps visually while the API call runs
   let current = 0;
-  const interval = setInterval(() => {
-    if (current < steps.length) {
+  const stepInterval = setInterval(() => {
+    if (current < steps.length - 1) {
       steps[current].classList.remove("active");
       steps[current].classList.add("done");
       current++;
-      if (current < steps.length) steps[current].classList.add("active");
-    } else {
-      clearInterval(interval);
-      setTimeout(() => {
-        loadingOverlay.style.display = "none";
-        analysisRun = true;
-        renderResults();
-      }, 400);
+      steps[current].classList.add("active");
     }
-  }, 900);
+  }, 1200);
+
+  try {
+    const formData = new FormData();
+    formData.append("file", uploadedFile, uploadedFile.name);
+
+    const response = await fetch(`${getBackendUrl()}/analyze`, {
+      method: "POST",
+      body: formData,
+    });
+
+    clearInterval(stepInterval);
+
+    if (!response.ok) {
+      let detail = `Server error ${response.status}`;
+      try {
+        const err = await response.json();
+        detail = err.detail || detail;
+      } catch (_) {}
+      throw new Error(detail);
+    }
+
+    const report = await response.json();
+    lastReport = report;
+
+    // Mark all steps done
+    steps.forEach((s) => { s.className = "loading-step done"; });
+
+    setTimeout(() => {
+      loadingOverlay.style.display = "none";
+      analysisRun = true;
+      renderResults(report);
+    }, 300);
+
+  } catch (err) {
+    clearInterval(stepInterval);
+    loadingOverlay.style.display = "none";
+    showError(`Analysis failed: ${err.message}`);
+  }
 }
 
-// ─── Render results ───────────────────────────────────────────────────────────
+// ─── Map backend severity to UI severity ─────────────────────────────────────
+function mapSeverity(sev) {
+  switch ((sev || "").toLowerCase()) {
+    case "critical": return "high";
+    case "warning":  return "medium";
+    case "info":     return "low";
+    default:         return "low";
+  }
+}
+
+// ─── Render results from the API report ──────────────────────────────────────
 function clearResults() {
   overlayContainer.innerHTML = "";
   panelIssues.innerHTML = `
@@ -417,15 +398,25 @@ function clearResults() {
   activeIssueId = null;
 }
 
-function renderResults() {
-  const issues = MOCK_ISSUES;
+function renderResults(report) {
+  // Normalise issues into the shape the UI expects
+  const issues = (report.issues || []).map((issue, idx) => ({
+    id: idx + 1,
+    title: formatIssueTitle(issue.issue_type),
+    severity: mapSeverity(issue.severity),
+    category: issue.rule_id || issue.issue_type,
+    location: issueLocation(issue, idx),
+    description: issue.description || "",
+    fix: issue.corrective_action || "Refer to the applicable ANSI/ASME Y14.5 standard.",
+    costImpact: costImpactFromSeverity(issue.severity),
+    rfiRisk: rfiRiskFromSeverity(issue.severity),
+    standardRef: issue.standard_reference || "",
+  }));
 
-  // Count by severity
   const highCount   = issues.filter((i) => i.severity === "high").length;
   const medCount    = issues.filter((i) => i.severity === "medium").length;
   const lowCount    = issues.filter((i) => i.severity === "low").length;
 
-  // Score: start at 100, deduct per issue
   const score = Math.max(0, 100 - highCount * 18 - medCount * 8 - lowCount * 3);
   const circumference = 150.8;
   const offset = circumference - (score / 100) * circumference;
@@ -439,22 +430,33 @@ function renderResults() {
 
   // Release status
   releaseStatus.style.display = "block";
-  if (score >= 70 && highCount === 0) {
+  if (report.overall_status === "Pass" || (score >= 70 && highCount === 0)) {
     releaseStatusBadge.className = "release-status-badge ready";
     releaseStatusBadge.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> READY FOR RELEASE`;
+    setProjectStatus(activeProjectFilename, "ready");
   } else {
     releaseStatusBadge.className = "release-status-badge not-ready";
     releaseStatusBadge.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> NOT READY FOR RELEASE`;
+    setProjectStatus(activeProjectFilename, highCount > 0 ? "blocked" : "review");
   }
+  renderDashSidebar();
 
   // Summary chips
   summaryChips.innerHTML = `
-    ${highCount ? `<span class="chip chip-high">● ${highCount} High</span>` : ""}
-    ${medCount  ? `<span class="chip chip-medium">● ${medCount} Medium</span>` : ""}
-    ${lowCount  ? `<span class="chip chip-low">● ${lowCount} Low</span>` : ""}
+    ${highCount ? `<span class="chip chip-high">● ${highCount} Critical</span>` : ""}
+    ${medCount  ? `<span class="chip chip-medium">● ${medCount} Warning</span>` : ""}
+    ${lowCount  ? `<span class="chip chip-low">● ${lowCount} Info</span>` : ""}
   `;
 
-  // Overlays on drawing
+  // Systemic patterns banner
+  if (report.systemic_patterns && report.systemic_patterns.length) {
+    const banner = document.createElement("div");
+    banner.className = "systemic-banner";
+    banner.innerHTML = `<strong>Systemic patterns detected:</strong> ${report.systemic_patterns.join(" · ")}`;
+    panelIssues.parentElement.insertBefore(banner, panelIssues);
+  }
+
+  // Overlays on drawing (spread evenly since we don't have real coordinates)
   overlayContainer.innerHTML = "";
   issues.forEach((issue, idx) => {
     const dot = document.createElement("div");
@@ -468,6 +470,18 @@ function renderResults() {
 
   // Issue cards
   panelIssues.innerHTML = "";
+
+  if (!issues.length) {
+    panelIssues.innerHTML = `
+      <div class="issues-placeholder">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="1.5">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+        <p style="color:#86efac">No issues found — drawing is ready for manufacturing.</p>
+      </div>`;
+    return;
+  }
+
   issues.forEach((issue, idx) => {
     const card = document.createElement("div");
     card.className = `issue-card severity-${issue.severity}`;
@@ -475,7 +489,7 @@ function renderResults() {
     card.innerHTML = `
       <div class="issue-card-header">
         <span class="issue-title">${idx + 1}. ${issue.title}</span>
-        <span class="issue-severity-tag tag-${issue.severity}">${issue.severity}</span>
+        <span class="issue-severity-tag tag-${issue.severity}">${severityLabel(issue.severity)}</span>
       </div>
       <p class="issue-desc">${issue.description}</p>
       <div class="issue-meta">
@@ -491,6 +505,7 @@ function renderResults() {
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
           Supplier RFI Risk: ${issue.rfiRisk}
         </span>
+        ${issue.standardRef ? `<span class="issue-meta-item">📐 ${issue.standardRef}</span>` : ""}
       </div>
       <div class="issue-fix">
         <strong>Suggested Fix:</strong> ${issue.fix}
@@ -500,27 +515,77 @@ function renderResults() {
     panelIssues.appendChild(card);
   });
 
-  // Select first issue automatically
-  setTimeout(() => selectIssue(issues[0].id), 200);
+  if (issues.length) setTimeout(() => selectIssue(issues[0].id), 200);
 }
 
 // ─── Select issue ─────────────────────────────────────────────────────────────
 function selectIssue(id) {
   activeIssueId = id;
-
-  // Update cards
   document.querySelectorAll(".issue-card").forEach((c) => {
     c.classList.toggle("active", parseInt(c.dataset.id) === id);
   });
-
-  // Update overlay markers
   document.querySelectorAll(".overlay-marker").forEach((m) => {
     m.classList.toggle("active", parseInt(m.dataset.id) === id);
   });
-
-  // Scroll card into view
   const activeCard = document.querySelector(`.issue-card[data-id="${id}"]`);
   if (activeCard) activeCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+// ─── Error display ────────────────────────────────────────────────────────────
+function showError(message) {
+  panelIssues.innerHTML = `
+    <div class="issues-placeholder" style="color:#fca5a5">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      <p>${message}</p>
+    </div>`;
+}
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+function formatIssueTitle(issueType) {
+  return (issueType || "Issue")
+    .replace(/_/g, " ")
+    .toLowerCase()
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+function severityLabel(sev) {
+  switch (sev) {
+    case "high":   return "Critical";
+    case "medium": return "Warning";
+    case "low":    return "Info";
+    default:       return sev;
+  }
+}
+
+function costImpactFromSeverity(sev) {
+  switch ((sev || "").toLowerCase()) {
+    case "critical": return "High — likely RFI or manufacturing defect";
+    case "warning":  return "Medium — may cause ambiguity or rework";
+    default:         return "Low — documentation or best-practice gap";
+  }
+}
+
+function rfiRiskFromSeverity(sev) {
+  switch ((sev || "").toLowerCase()) {
+    case "critical": return "Very Likely";
+    case "warning":  return "Possible";
+    default:         return "Unlikely";
+  }
+}
+
+// Spread issue markers across the drawing canvas in a grid pattern
+function issueLocation(issue, idx) {
+  const cols = 4;
+  const col = idx % cols;
+  const row = Math.floor(idx / cols);
+  return {
+    x: `${15 + col * 20}%`,
+    y: `${20 + row * 18}%`,
+  };
 }
 
 // ─── Init ─────────────────────────────────────────────────────────────────────

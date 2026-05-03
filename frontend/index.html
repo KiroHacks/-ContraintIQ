@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Constraint IQ — AI Drawing Review</title>
   <link rel="stylesheet" href="styles.css" />
+  <!-- Runtime config — sets window.CONSTRAINT_IQ_CONFIG.backendUrl -->
+  <script src="config.js"></script>
 </head>
 <body>
 
@@ -40,8 +42,8 @@
     </div>
   </nav>
 
-  <!-- hidden file input -->
-  <input type="file" id="fileInput" accept=".pdf" style="display:none" />
+  <!-- hidden file input — accepts DXF, DWG, and PDF -->
+  <input type="file" id="fileInput" accept=".dxf,.dwg,.pdf" style="display:none" />
 
   <!-- ═══ LANDING PAGE ═══ -->
   <div id="landingPage" class="page-view">
