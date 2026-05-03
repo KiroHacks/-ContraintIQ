@@ -183,7 +183,7 @@ The implementation follows the pipeline order: data models → ingestion → par
 - [x] 13. Checkpoint — Ensure all rule engine tests pass so far
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 14. Implement `manufacturing_readiness` rule module
+- [x] 14. Implement `manufacturing_readiness` rule module
   - Implement rules in `src/engineering_drawing_analyzer/rule_engine/manufacturing_readiness.py`:
     - `TitleBlockRule`: verify `TitleBlock` has all required fields (part_number, revision, material, scale, units); one `CRITICAL` issue per missing field (exactly one per field — no duplicates)
     - `SurfaceFinishRule`: verify functional surfaces have surface finish callouts; missing → `WARNING`
@@ -291,7 +291,7 @@ The implementation follows the pipeline order: data models → ingestion → par
     - Place in `tests/unit/test_report_generator.py`
     - _Requirements: 6.1–6.5_
 
-- [ ] 19. Implement the main analysis pipeline and wire all components together
+- [x] 19. Implement the main analysis pipeline and wire all components together
   - Implement `AnalysisPipeline` class in `src/engineering_drawing_analyzer/pipeline.py` that orchestrates the full flow: `IngestionService` → format-specific `DrawingParser` → `SymbolDetector.detect()` + `SymbolDetector.enrich()` → `RuleEngine.run()` → `ReportGenerator.generate()`
   - Implement analysis timeout: if pipeline exceeds 60 seconds, return a partial report with a `WARNING` issue noting incomplete analysis
   - Implement rule engine exception isolation: catch per-rule exceptions, log with rule ID, append `INFO` issue, continue with remaining rules
@@ -309,13 +309,13 @@ The implementation follows the pipeline order: data models → ingestion → par
   - Implement `scripts/evaluate_dpss.py`: evaluate fine-tuned model on held-out mechanical drawing test split; report Panoptic Quality (PQ), Segmentation Quality (SQ), and Recognition Quality (RQ) metrics
   - _Requirements: 1.2_
 
-- [ ] 21. Add performance benchmark test for the 60-second SLA
+- [x] 21. Add performance benchmark test for the 60-second SLA
   - Implement a `pytest-benchmark` test that generates a synthetic `GeometricModel` with exactly 500 features and runs the full pipeline (excluding ML inference) through `AnalysisPipeline`
   - Assert the benchmark completes within 60 seconds
   - Place in `tests/` as `test_performance.py`
   - _Requirements: 6.6_
 
-- [ ] 22. Final checkpoint — Ensure all tests pass
+- [x] 22. Final checkpoint — Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
 ## Notes

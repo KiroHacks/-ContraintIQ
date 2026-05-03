@@ -1,0 +1,4 @@
+# file: /Users/yunwaddyoo/Desktop/Projects/-ContraintIQ/frontend/src/engineering_drawing_analyzer/parsers/pdf_parser.py
+# hypothesis_version: 6.131.15
+
+[0.5, 2.0, 20.0, '1.0', ':', ': ', 'CURVE', 'LINE', 'PAGE', 'PATH', 'PDF', 'POLYLINE', 'RECT', '[-+]?\\d*\\.?\\d+', '\\b(MMC|LMC|RFS)\\b', '^[ØøRr∅]\\s*', 'bbox', 'blocks', 'c', 'cm', 'dict', 'dimension', 'drawing no', 'drawing number', 'dwg no', 'dwg_no', 'ft', 'in', 'inch', 'inches', 'items', 'l', 'lines', 'm', 'mat', 'mat.', 'material', 'millimeter', 'millimetre', 'mm', 'part no', 'part number', 'part#', 'part_number', 'pdf', 'qu', 're', 'rect', 'rev', 'rev.', 'revision', 'scale', 'spans', 'text', 'type', 'unit', 'units', '|', '⏤⏥○⌭⌒⌓∠⊥∥⊕◎⌯↗⌰⊘⊙⊚⊛']

@@ -1,0 +1,4 @@
+# file: /Users/yunwaddyoo/Desktop/Projects/-ContraintIQ/src/engineering_drawing_analyzer/pipeline.py
+# hypothesis_version: 6.131.15
+
+[0.5, 'ANALYSIS_PIPELINE', 'ANALYSIS_TIMEOUT', 'AnalysisPipeline', 'AnalysisTimeout', 'DWG', 'DXF', 'N/A', 'PDF', 'ParseError', 'RULE_ENGINE', '__no_weights__', 'component', 'drawing_id', 'error_type', 'exc', 'level', 'message', 'timestamp', 'unknown', 'value']
